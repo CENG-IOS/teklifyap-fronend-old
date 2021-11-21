@@ -46,7 +46,7 @@ export default function MakeOffer(props) {
 
     useEffect(() => {
 
-        fetch(`http://localhost:8080/api/user/getFullName`, {
+        fetch(`https://teklif-yap.herokuapp.com:8080/api/user/getFullName`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function MakeOffer(props) {
     }
 
     function fetchForSlide2() {
-        fetch("http://localhost:8080/api/material/getMaterialByUser", {
+        fetch("https://teklif-yap.herokuapp.com:8080/api/material/getMaterialByUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -338,7 +338,7 @@ export default function MakeOffer(props) {
                         </table>
 
                         <div className="d-flex justify-content-end">
-                            <button className="btn btn-success mb-4" onClick={(e) => {
+                            <button disabled className="btn btn-success mb-4" onClick={(e) => {
                                 const makeOffer1 = async () => {
                                     const settings = {
                                         method: "POST",
@@ -359,7 +359,7 @@ export default function MakeOffer(props) {
                                         }),
                                     }
                                     try {
-                                        const fetchResponse = await fetch(`http://localhost:8080/api/offer/make`, settings);
+                                        const fetchResponse = await fetch(`https://teklif-yap.herokuapp.com:8080/api/offer/make`, settings);
                                         const data = await fetchResponse.json();
                                         return data;
                                     } catch (e) {
@@ -372,7 +372,7 @@ export default function MakeOffer(props) {
 
 
                             }}>Teklif Yap </button>
-                            <button className="btn btn-success" onClick={() => {
+                            <button className="btn btn-success" disabled onClick={() => {
 
 
                                 const makeOffer2 = async (offer_id, material) => {
@@ -393,7 +393,7 @@ export default function MakeOffer(props) {
                                         }),
                                     }
                                     try {
-                                        const fetchResponse = await fetch(`http://localhost:8080/api/offerMaterial/make`, settings);
+                                        const fetchResponse = await fetch(`https://teklif-yap.herokuapp.com:8080/api/offerMaterial/make`, settings);
                                         const data = await fetchResponse.json();
                                         return data;
                                     } catch (e) {

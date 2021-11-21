@@ -26,7 +26,7 @@ export default function ProductB(props) {
         setOpenRes(true)
 
 
-        fetch("http://localhost:8080/api/material/delete", {
+        fetch("https://teklif-yap.herokuapp.com/api/material/delete", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

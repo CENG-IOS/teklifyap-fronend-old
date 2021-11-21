@@ -45,7 +45,7 @@ const Profile = () => {
             creationDate: date.toISOString().split('T')[0]
         }
 
-        fetch("http://localhost:8080/api/user/updateInformation", {
+        fetch("https://teklif-yap.herokuapp.com:8080/api/user/updateInformation", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/user/userProfile", {
+        fetch("https://teklif-yap.herokuapp.com/api/user/userProfile", {
             method: "POST",
 
             headers: {

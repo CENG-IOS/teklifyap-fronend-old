@@ -83,7 +83,7 @@ const Register = (props) => {
             return;
         }
 
-        fetch("http://localhost:8080/api/users/add", {
+        fetch("https://teklif-yap.herokuapp.com:8080/api/users/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -36,7 +36,7 @@ const Login = () => {
             user_password: password,
         };
 
-        fetch("http://localhost:8080/api/user/getByEmailAndPassword", {
+        fetch("https://teklif-yap.herokuapp.com:8080/api/user/getByEmailAndPassword", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

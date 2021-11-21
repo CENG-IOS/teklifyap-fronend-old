@@ -13,7 +13,7 @@ export default function Offers() {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/offer/getOffers`, {
+        fetch(`https://teklif-yap.herokuapp.com:8080/api/offer/getOffers`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
