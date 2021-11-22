@@ -8,6 +8,7 @@ import warnIng from "../images/warning.svg";
 import LoadingBar from "react-top-loading-bar";
 import { useSelector } from "react-redux";
 import ToolTip from "../components/Inputs/ToolTip";
+import Modal from 'react-bootstrap/Modal';
 
 const Register = (props) => {
     const [name, setName] = useState("");
@@ -15,6 +16,7 @@ const Register = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordAgain, setPasswordAgain] = useState("");
+    const [warningPop, setWarningPop] = useState(false);
 
     const [warning, setWarning] = useState([]);
     const [deneme, setDeneme] = useState(false);
@@ -57,11 +59,11 @@ const Register = (props) => {
         let surnameController = /^[a-zA-ZğüşöçİĞÜŞÖÇ1234567890]+$/.test(surname);
         let reg = /^\d+$/.test(password);
         const values = {
-            name: name,
-            surname: surname,
-            email: email,
-            password: password,
-            creationDate: today,
+            user_name: name,
+            user_surname: surname,
+            user_email: email,
+            user_password: password,
+            user_creation_date: today,
         };
         if (password != passwordAgain) {
             setWarning((oldArray) => [...oldArray, "Şifreler uyuşmuyor."]);
@@ -83,7 +85,10 @@ const Register = (props) => {
             return;
         }
 
-        fetch("https://teklifyap-backend.herokuapp.com/api/users/add", {
+        if (warning.length < 1)
+            setWarningPop(true)
+
+        fetch("https://teklifyap-backend.herokuapp.com/api/user/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -109,138 +114,141 @@ const Register = (props) => {
     }, [myArray]);
 
     return (
-        <div className="container-fluid position-relative overflow-hidden vh-100 p-0">
-            <img className="background-img  " src={background}></img>
-            <div className="img-cover-color"></div>
+        <React.Fragment>
 
-            <div className="container mt-5">
-                <div className="d-flex justify-content-center">
-                    <div className={!Theme ? "col-12 col-sm-12 col-md-11 col-lg-10 col-xl-8 p-5 round round-default-theme" : "p-5 round round-dark-theme"}>
-                        <div className="d-flex flex-column flex-lg-row">
+            <div className="container-fluid position-relative overflow-hidden vh-100 p-0">
+                <img className="background-img  " src={background}></img>
+                <div className="img-cover-color"></div>
 
-                            <div className="col-lg-5">
-                                <form onSubmit={RegisterHandler}>
-                                    <div>
-                                        <div className="hover-me">
+                <div className="container mt-5">
+                    <div className="d-flex justify-content-center">
+                        <div className={!Theme ? "col-12 col-sm-12 col-md-11 col-lg-10 col-xl-8 p-5 round round-default-theme" : "p-5 round round-dark-theme"}>
+                            <div className="d-flex flex-column flex-lg-row">
+
+                                <div className="col-lg-5">
+                                    <form onSubmit={RegisterHandler}>
+                                        <div>
+                                            <div className="hover-me">
+                                                <Input
+                                                    title="Ad"
+                                                    enteredValue={nameHandler}
+                                                    inputValue={name}
+                                                    maxlength="10"
+                                                ></Input>
+                                            </div>
+
+                                            <ToolTip title1="Ad ve soyad yalnızca rakam veya harflerden oluşabilir."></ToolTip>
+                                        </div>
+
+                                        <div className="mt-3">
                                             <Input
-                                                title="Ad"
-                                                enteredValue={nameHandler}
-                                                inputValue={name}
+                                                title="Soyad"
+                                                enteredValue={surnameHandler}
+                                                inputValue={surname}
                                                 maxlength="10"
                                             ></Input>
                                         </div>
 
-                                        <ToolTip title1="Ad ve soyad yalnızca rakam veya harflerden oluşabilir."></ToolTip>
-                                    </div>
-
-                                    <div className="mt-3">
-                                        <Input
-                                            title="Soyad"
-                                            enteredValue={surnameHandler}
-                                            inputValue={surname}
-                                            maxlength="10"
-                                        ></Input>
-                                    </div>
-
-                                    <div className="mt-3">
-                                        <div className="hover-me">
-                                            <Input
-                                                title="Email"
-                                                enteredValue={emailHandler}
-                                                inputValue={email}
-                                                maxlength="35"
-                                            ></Input>
-                                        </div>
-                                        <ToolTip
-                                            title1="Email @abc.com yapısı ile bitmeli"
-                                            title2="ve öncesinde özel karakter içermemelidir."
-                                        ></ToolTip>
-                                    </div>
-
-                                    <div className="mt-3">
-                                        <div className="hover-me">
-                                            <Input
-                                                title="Şifre"
-                                                enteredValue={passwordHandler}
-                                                inputValue={password}
-                                            ></Input>
-                                        </div>
-
-                                        <ToolTip
-                                            title1="Şifre en az 6 karakter içermeli;"
-                                            title2="*En az bir büyük harf,"
-                                            title3="*En az bir rakam,"
-                                            title4="*En az bir sembol barındırmalıdır."
-                                        ></ToolTip>
-                                    </div>
-
-                                    <div className="mt-3">
-                                        <Input
-                                            title="Şifrenizi tekrar giriniz"
-                                            enteredValue={passwordAgainHandler}
-                                            inputValue={passwordAgain}
-                                        ></Input>
-                                    </div>
-
-                                    {warning.map((index) => (
-                                        <div className="col-11 user-select-none">
-                                            <div className="d-flex align-self-start">
-                                                <img className="warning-img d-inline" src={warnIng} />
-                                                <div className="ms-1 warning-text">{index}</div>
+                                        <div className="mt-3">
+                                            <div className="hover-me">
+                                                <Input
+                                                    title="Email"
+                                                    enteredValue={emailHandler}
+                                                    inputValue={email}
+                                                    maxlength="35"
+                                                ></Input>
                                             </div>
+                                            <ToolTip
+                                                title1="Email @abc.com yapısı ile bitmeli"
+                                                title2="ve öncesinde özel karakter içermemelidir."
+                                            ></ToolTip>
                                         </div>
-                                    ))}
 
-                                    <div className="d-flex justify-content-center mt-4 mb-2">
-                                        <Buttons
-                                            title="Kayıt Ol"
-                                            disabled={
-                                                myArray != null
-                                                    ? myArray.success
-                                                        ? true
-                                                        : false
-                                                    : null
-                                            }
-                                        ></Buttons>
-                                    </div>
-                                </form>
-                            </div>
+                                        <div className="mt-3">
+                                            <div className="hover-me">
+                                                <Input
+                                                    title="Şifre"
+                                                    enteredValue={passwordHandler}
+                                                    inputValue={password}
+                                                ></Input>
+                                            </div>
 
-                            <div
-                                className={
-                                    !Theme
-                                        ? "col-lg-2 mb-2 or-text or-text-default-theme d-flex align-items-center justify-content-center fs-5 user-select-none"
-                                        : "col-lg-2 mb-2 or-text or-text-dark-theme d-flex align-items-center justify-content-center fs-5 user-select-none"
-                                }
-                            >
-                                veya
-                            </div>
+                                            <ToolTip
+                                                title1="Şifre en az 6 karakter içermeli;"
+                                                title2="*En az bir büyük harf,"
+                                                title3="*En az bir rakam,"
+                                                title4="*En az bir sembol barındırmalıdır."
+                                            ></ToolTip>
+                                        </div>
 
-                            <div className="col-lg-5">
-                                <div className="d-flex flex-column ">
+                                        <div className="mt-3">
+                                            <Input
+                                                title="Şifrenizi tekrar giriniz"
+                                                enteredValue={passwordAgainHandler}
+                                                inputValue={passwordAgain}
+                                            ></Input>
+                                        </div>
 
-                                    <div className="hover-me">
-                                        <div className="d-flex justify-content-center">
+                                        {warning.map((index) => (
+                                            <div className="col-11 user-select-none">
+                                                <div className="d-flex align-self-start">
+                                                    <img className="warning-img d-inline" src={warnIng} />
+                                                    <div className="ms-1 warning-text">{index}</div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                        <div className="d-flex justify-content-center mt-4 mb-2">
                                             <Buttons
-                                                title="Facebook İle Kayıt Ol"
-                                                disabled={true}
+                                                title="Kayıt Ol"
+                                                disabled={
+                                                    myArray != null
+                                                        ? myArray.success
+                                                            ? true
+                                                            : false
+                                                        : null
+                                                }
                                             ></Buttons>
                                         </div>
-                                    </div>
+                                    </form>
+                                </div>
 
-                                    <ToolTip title1="Yakın zamanda eklenecek."></ToolTip>
+                                <div
+                                    className={
+                                        !Theme
+                                            ? "col-lg-2 mb-2 or-text or-text-default-theme d-flex align-items-center justify-content-center fs-5 user-select-none"
+                                            : "col-lg-2 mb-2 or-text or-text-dark-theme d-flex align-items-center justify-content-center fs-5 user-select-none"
+                                    }
+                                >
+                                    veya
+                                </div>
 
-                                    <div className="mt-2">
+                                <div className="col-lg-5">
+                                    <div className="d-flex flex-column ">
+
                                         <div className="hover-me">
                                             <div className="d-flex justify-content-center">
                                                 <Buttons
-                                                    title="Google İle Kayıt Ol"
+                                                    title="Facebook İle Kayıt Ol"
                                                     disabled={true}
                                                 ></Buttons>
                                             </div>
-
                                         </div>
+
                                         <ToolTip title1="Yakın zamanda eklenecek."></ToolTip>
+
+                                        <div className="mt-2">
+                                            <div className="hover-me">
+                                                <div className="d-flex justify-content-center">
+                                                    <Buttons
+                                                        title="Google İle Kayıt Ol"
+                                                        disabled={true}
+                                                    ></Buttons>
+                                                </div>
+
+                                            </div>
+                                            <ToolTip title1="Yakın zamanda eklenecek."></ToolTip>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -248,7 +256,17 @@ const Register = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
+
+            <Modal show={warningPop} centered backdrop="static" size="sm">
+                <Modal.Header className="bg-opacity-75 bg-warning">
+                    <Modal.Title className="user-select-none">Kayıt yapılırken bekleyin!</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body className="user-select-none">
+                    Sabrınız için teşekkür ederiz.
+                </Modal.Body>
+            </Modal>
+        </React.Fragment>
 
 
     );
