@@ -49,7 +49,7 @@ const Navbar = () => {
                   : "navbar-logo-name navbar-logo-name-dark-theme d-flex align-items-center mt-2"
               }
             >
-              LOREM IPSUM
+              TeklifYap
             </div>
           </div>
         </div>
