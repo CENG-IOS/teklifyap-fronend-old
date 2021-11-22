@@ -37,12 +37,12 @@ const Profile = () => {
         date = new Date(date.getTime() - (offset * 60 * 1000))
 
         let newUser = {
-            id: id,
-            name: document.getElementById("name").value,
-            surname: document.getElementById("surname").value,
-            email: document.getElementById("email").value,
-            password: document.getElementById("pass").value,
-            creationDate: date.toISOString().split('T')[0]
+            user_id: id,
+            user_name: document.getElementById("name").value,
+            user_surname: document.getElementById("surname").value,
+            user_email: document.getElementById("email").value,
+            user_password: document.getElementById("pass").value,
+            user_creation_date: date.toISOString().split('T')[0]
         }
 
         fetch("https://teklifyap-backend.herokuapp.com/api/user/updateInformation", {
