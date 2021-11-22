@@ -9,7 +9,7 @@ export default function Offers() {
     const id = useSelector((state) => state.auth.userID);
     const Theme = useSelector((state) => state.theme.theme);
     let values = {
-        user_id: id,
+        id: id.toString()
     };
 
     useEffect(() => {
@@ -21,7 +21,9 @@ export default function Offers() {
             body: JSON.stringify(values),
         })
             .then((response) => response.json())
-            .then((data) => setOffersInfo(data.data));
+            .then((data) => {
+                setOffersInfo(data.data)
+            });
     }, []);
 
     const idHandler = (e) => {
