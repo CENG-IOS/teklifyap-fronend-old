@@ -122,7 +122,9 @@ const Register = (props) => {
 
                 <div className="container mt-5">
                     <div className="d-flex justify-content-center">
-                        <div className={!Theme ? "col-12 col-sm-12 col-md-11 col-lg-10 col-xl-8 p-5 round round-default-theme" : "p-5 round round-dark-theme"}>
+                        <div className={!Theme ? "p-5 round round-default-theme" : "p-5 round round-dark-theme"}>
+                            {//col-12 col-sm-12 col-md-11 col-lg-10 col-xl-8
+                            }
                             <div className="d-flex flex-column flex-lg-row">
 
                                 <div className="col-lg-5">
