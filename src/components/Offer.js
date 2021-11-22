@@ -16,7 +16,7 @@ export default function Offer(props) {
 
     const positiveHandler = (e) => {
         let status = "true"
-        fetch(`https://teklif-yap.herokuapp.com:8080/api/offer/updateStatus/${props.id}/${status}`, {
+        fetch(`https://teklifyap-backend.herokuapp.com/api/offer/updateStatus/${props.id}/${status}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -29,7 +29,7 @@ export default function Offer(props) {
 
     const negatiffHandler = (e) => {
         let status = "false"
-        fetch(`https://teklif-yap.herokuapp.com:8080/api/offer/updateStatus/${props.id}/${status}`, {
+        fetch(`https://teklifyap-backend.herokuapp.com/api/offer/updateStatus/${props.id}/${status}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

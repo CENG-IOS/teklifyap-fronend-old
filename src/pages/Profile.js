@@ -45,7 +45,7 @@ const Profile = () => {
             creationDate: date.toISOString().split('T')[0]
         }
 
-        fetch("https://teklif-yap.herokuapp.com:8080/api/user/updateInformation", {
+        fetch("https://teklifyap-backend.herokuapp.com/api/user/updateInformation", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

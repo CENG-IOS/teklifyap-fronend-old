@@ -13,7 +13,7 @@ export default function Offers() {
     };
 
     useEffect(() => {
-        fetch(`https://teklif-yap.herokuapp.com:8080/api/offer/getOffers`, {
+        fetch(`https://teklifyap-backend.herokuapp.com/api/offer/getOffers`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

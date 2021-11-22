@@ -46,7 +46,7 @@ export default function MakeOffer(props) {
 
     useEffect(() => {
 
-        fetch(`https://teklif-yap.herokuapp.com:8080/api/user/getFullName`, {
+        fetch(`https://teklifyap-backend.herokuapp.com/api/user/getFullName`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function MakeOffer(props) {
     }
 
     function fetchForSlide2() {
-        fetch("https://teklif-yap.herokuapp.com:8080/api/material/getMaterialByUser", {
+        fetch("https://teklifyap-backend.herokuapp.com/api/material/getMaterialByUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -359,7 +359,7 @@ export default function MakeOffer(props) {
                                         }),
                                     }
                                     try {
-                                        const fetchResponse = await fetch(`https://teklif-yap.herokuapp.com:8080/api/offer/make`, settings);
+                                        const fetchResponse = await fetch(`https://teklifyap-backend.herokuapp.com/api/offer/make`, settings);
                                         const data = await fetchResponse.json();
                                         return data;
                                     } catch (e) {
@@ -393,7 +393,7 @@ export default function MakeOffer(props) {
                                         }),
                                     }
                                     try {
-                                        const fetchResponse = await fetch(`https://teklif-yap.herokuapp.com:8080/api/offerMaterial/make`, settings);
+                                        const fetchResponse = await fetch(`https://teklifyap-backend.herokuapp.com/api/offerMaterial/make`, settings);
                                         const data = await fetchResponse.json();
                                         return data;
                                     } catch (e) {

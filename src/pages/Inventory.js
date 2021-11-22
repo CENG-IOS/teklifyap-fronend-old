@@ -59,7 +59,7 @@ export default function Inventory() {
             }
         }
 
-        fetch("https://teklif-yap.herokuapp.com:8080/api/material/add", {
+        fetch("https://teklifyap-backend.herokuapp.com/api/material/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
