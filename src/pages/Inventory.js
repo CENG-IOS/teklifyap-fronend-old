@@ -30,7 +30,7 @@ export default function Inventory() {
     }, []);
 
     useEffect(() => {
-        fetch("https://teklif-yap.herokuapp.com:8080/api/material/getMaterialByUser", {
+        fetch("https://teklifyap-backend.herokuapp.com/api/material/getMaterialByUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

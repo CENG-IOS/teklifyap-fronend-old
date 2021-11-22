@@ -69,7 +69,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        fetch("https://teklif-yap.herokuapp.com/api/user/userProfile", {
+        fetch("https://teklifyap-backend.herokuapp.com/api/user/userProfile", {
             method: "POST",
 
             headers: {
