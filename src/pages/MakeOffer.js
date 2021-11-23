@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
     Mousewheel, Pagination
 } from 'swiper';
-import Buttons from '../components/Buttons/Buttons';
+import { useHistory } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -33,7 +33,7 @@ export default function MakeOffer(props) {
     let values = {
         user_id: id,
     };
-
+    const history = useHistory();
     const [my_swiper, set_my_swiper] = useState({});
 
     const handleClose = () => {
@@ -43,8 +43,10 @@ export default function MakeOffer(props) {
             setErrorSlide2(false)
         else if (errorSlide3)
             setErrorSlide3(false)
-        else
+        else {
             setWarning(false)
+            history.push("/")
+        }
     }
 
     useEffect(() => {

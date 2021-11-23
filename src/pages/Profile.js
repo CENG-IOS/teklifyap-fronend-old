@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Buttons from "../components/Buttons/Buttons";
 import { useSelector } from "react-redux";
-import CustomPopup from "./CustomPopup";
+import Modal from 'react-bootstrap/Modal';
 
 const Profile = () => {
     const [info, setInfo] = useState({});
     const [dataSuccess, setSuccess] = useState(false);
-    const [dataError, setError] = useState(false);
+    // const [dataError, setError] = useState(false);
     const id = useSelector((state) => state.auth.userID);
     const Theme = useSelector((state) => state.theme.theme);
     let values = {
         user_id: id,
     };
     const [isOpen, setIsOpen] = useState(false);
+    const [isOpen2, setIsOpen2] = useState(false);
 
     const togglePopup = () => {
         setIsOpen(!isOpen);
+    }
+    const handleClose = () => {
+        // setError(!dataError)
+        setIsOpen2(false)
+        setTimeout(() => {
+            setSuccess(!dataSuccess)
+        }, 500)
     }
 
     function dateConverter() {
@@ -57,15 +65,17 @@ const Profile = () => {
                 console.log(data)
                 if (data.success) {
                     setSuccess(true)
-                    setError(false)
                 } else {
                     setSuccess(false)
-                    setError(true)
                 }
                 setInfo(data.data)
             });
 
+
         togglePopup()
+        setTimeout(() => {
+            setIsOpen2(true)
+        }, 300)
     }
 
     useEffect(() => {
@@ -79,123 +89,123 @@ const Profile = () => {
         })
             .then((response) => response.json())
             .then((data) => setInfo(data.data));
-
-
     }, [])
 
 
     return (
-        <div className="container position-relative ">
+        <React.Fragment>
 
-            <div className={dataSuccess ? "text-center" : "d-none text-center"}>
-                <span className="text-success">Bilgileriniz başarıyla güncellendi!</span>
-            </div>
+            <div className="container position-relative ">
+                <div className="d-flex justify-content-center ">
+                    <div className={!Theme ? "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary text-white round-corner" : "profile-wrapper mt-3 mb-4 p-5 pt-4  bg-light text-dark round-corner"}>
+                        <div className="user-select-none text-center mt-3 h2">{info.user_name + ' ' + info.user_surname}</div>
 
-            <div className={dataError ? "text-center" : "d-none text-center"}>
-                <span className="text-danger">İşlem sırasında bir hata meydana geldi, lütfen dah sonra tekrar deneyiniz!</span>
-            </div>
-
-            <div className="d-flex justify-content-center ">
-                <div className={!Theme ? "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-secondary text-white round-corner" : "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-light text-dark round-corner"}>
-                    <div className="user-select-none text-center mt-3 h2">{info.user_name + ' ' + info.user_surname}</div>
-
-                    <div className="d-flex justify-content-center mt-3">
-                        <div className="profile-circle"></div>
-                    </div>
-
-                    <div className="d-flex flex-row mt-3 mb-3">
-                        <div className="d-flex justify-content-center flex-column col-3 ms-5">
-                            <label
-                                className="profile-info profile-info-label"
-                                htmlFor="remember"
-                            >
-                                Email:
-                            </label>
-
-                            <label
-                                className="profile-info profile-info-label"
-                                htmlFor="remember"
-                            >
-                                Şifre:
-                            </label>
+                        <div className="d-flex justify-content-center mt-3">
+                            <div className="profile-circle"></div>
                         </div>
 
-                        <div className="d-flex flex-column col-8">
-                            <div className="d-inline profile-info"> {info.user_email}</div>
-                            <div className="d-inline profile-info">*********</div>
+                        <div className="d-flex flex-row mt-3 mb-3">
+                            <div className="d-flex justify-content-center flex-column col-3 ms-5">
+                                <label
+                                    className="profile-info profile-info-label"
+                                    htmlFor="remember"
+                                >
+                                    Email:
+                                </label>
+
+                                <label
+                                    className="profile-info profile-info-label"
+                                    htmlFor="remember"
+                                >
+                                    Şifre:
+                                </label>
+                            </div>
+
+                            <div className="d-flex flex-column col-8">
+                                <div className="d-inline profile-info"> {info.user_email}</div>
+                                <div className="d-inline profile-info">*********</div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="d-inline profile-info ">Kullanıcı <b>{dateConverter().year}</b>  yılının <b>{dateConverter().month.toLowerCase()}</b> ayında kaydoldu.</div>
+                        <div className="d-inline profile-info ">Kullanıcı <b>{dateConverter().year}</b>  yılının <b>{dateConverter().month.toLowerCase()}</b> ayında kaydoldu.</div>
 
-                    <div className="d-flex justify-content-end p-0 mt-5">
-                        <Buttons clicked={togglePopup} title="Bilgilerimi Düzenle"></Buttons>
-
+                        <div className="d-flex justify-content-end p-0 mt-5">
+                            <Buttons clicked={togglePopup} title="Bilgilerimi Düzenle"></Buttons>
+                        </div>
                     </div>
                 </div>
-
-
-                {isOpen && <CustomPopup
-                    handleClose={togglePopup}
-                    content={
-                        <div className="d-flex flex-column mt-3 mb-3 p-3 deneme">
-                            <form action="POST" onSubmit={submitHandler}>
-
-                                <div className="input-group mt-4">
-                                    <div className="input-group-prepend col-4">
-                                        <label className="input-group-text profile-info-label" htmlFor="remember" >Ad :</label>
-                                    </div>
-                                    <input id="name" required type="text" className="form-control" defaultValue={info.user_name} />
-                                </div>
-
-                                <div className="input-group  mt-2">
-                                    <div className="input-group-prepend col-4">
-                                        <label className="input-group-text profile-info-label" htmlFor="remember" >Soyad :</label>
-                                    </div>
-                                    <input id="surname" required type="text" className="form-control" defaultValue={info.user_surname} />
-                                </div>
-
-                                <div className="input-group mt-2">
-                                    <div className="input-group-prepend col-4">
-                                        <label className="input-group-text profile-info-label" htmlFor="remember" >Email :</label>
-                                    </div>
-                                    <input id="email" required type="email" className="form-control" defaultValue={info.user_email} />
-                                </div>
-
-                                <div className="input-group mt-2">
-                                    <div className="input-group-prepend col-4">
-                                        <label className="input-group-text profile-info-label" htmlFor="remember" >Şifre :</label>
-                                    </div>
-                                    <input id="pass" required type="password" className="form-control" />
-                                </div>
-
-                                <div className="input-group mt-2">
-                                    <div className="input-group-prepend col-4" >
-                                        <label className="input-group-text profile-info-label" htmlFor="remember" >Şifre onayla :</label>
-                                    </div>
-                                    <input id="passConfirm" required type="password" className="form-control" />
-                                </div>
-
-                                <div className="input-group mt-2">
-                                    <div className="input-group-prepend col-4">
-                                        <label className="input-group-text profile-info-label" htmlFor="remember" >Kayıt tarihi:</label>
-                                    </div>
-                                    <input id="date" type="text" className="form-control" disabled value={new Date(info.user_creation_date).toLocaleDateString()} />
-                                </div>
-
-                                <div className="d-flex justify-content-end mt-2">
-                                    <Buttons title="Gönder" />
-                                </div>
-
-                            </form>
-                        </div>
-                    }
-                />
-                }
-
             </div>
 
-        </div>
+            <Modal show={isOpen} onHide={togglePopup} centered>
+                <Modal.Header className="bg-opacity-75 bg-primary" closeButton>
+                    <Modal.Title className="user-select-none">Bilgi Güncelleme</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body className="user-select-none">
+                    <div className="d-flex flex-column">
+                        <form action="POST" onSubmit={submitHandler}>
+
+                            <div className="input-group mt-4">
+                                <div className="input-group-prepend col-4">
+                                    <label className="input-group-text profile-info-label" htmlFor="remember" >Ad :</label>
+                                </div>
+                                <input id="name" required type="text" className="form-control" defaultValue={info.user_name} />
+                            </div>
+
+                            <div className="input-group  mt-2">
+                                <div className="input-group-prepend col-4">
+                                    <label className="input-group-text profile-info-label" htmlFor="remember" >Soyad :</label>
+                                </div>
+                                <input id="surname" required type="text" className="form-control" defaultValue={info.user_surname} />
+                            </div>
+
+                            <div className="input-group mt-2">
+                                <div className="input-group-prepend col-4">
+                                    <label className="input-group-text profile-info-label" htmlFor="remember" >Email :</label>
+                                </div>
+                                <input id="email" required type="email" className="form-control" defaultValue={info.user_email} />
+                            </div>
+
+                            <div className="input-group mt-2">
+                                <div className="input-group-prepend col-4">
+                                    <label className="input-group-text profile-info-label" htmlFor="remember" >Şifre :</label>
+                                </div>
+                                <input id="pass" required type="password" className="form-control" />
+                            </div>
+
+                            <div className="input-group mt-2">
+                                <div className="input-group-prepend col-4" >
+                                    <label className="input-group-text profile-info-label" htmlFor="remember" >Şifre onayla :</label>
+                                </div>
+                                <input id="passConfirm" required type="password" className="form-control" />
+                            </div>
+
+                            <div className="input-group mt-2">
+                                <div className="input-group-prepend col-4">
+                                    <label className="input-group-text profile-info-label" htmlFor="remember" >Kayıt tarihi:</label>
+                                </div>
+                                <input id="date" type="text" className="form-control" disabled value={new Date(info.user_creation_date).toLocaleDateString()} />
+                            </div>
+
+                            <div className="d-flex justify-content-end mt-2">
+                                <Buttons title="Gönder" />
+                            </div>
+
+                        </form>
+                    </div>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={isOpen2} onHide={handleClose} centered size="sm">
+                <Modal.Header className={dataSuccess ? "bg-opacity-75 bg-success" : "bg-opacity-75 bg-danger"} closeButton>
+                    <Modal.Title className="user-select-none">{dataSuccess ? "Başarılı!" : "Opss Hata!"}</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    {dataSuccess ? "Bilgileriniz güncellendi!" : "Lütfen daha sonra tekrar deneyiniz!"}
+                </Modal.Body>
+            </Modal>
+        </React.Fragment>
     );
 };
 export default Profile;
