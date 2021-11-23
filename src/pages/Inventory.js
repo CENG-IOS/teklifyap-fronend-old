@@ -257,7 +257,7 @@ export default function Inventory() {
                 <Modal show={isOpen} onHide={() => {
                     setIsopen(false)
                     window.location.reload()
-                }} centered>
+                }} centered size="sm">
                     <Modal.Header className="bg-opacity-75 bg-success" closeButton>
                         <Modal.Title>Başarılı!</Modal.Title>
                     </Modal.Header>

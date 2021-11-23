@@ -20,11 +20,9 @@ export default function ProductB(props) {
     }
 
     const DeleteMaterial = (e) => {
-        // e.preventDefault()
+        e.preventDefault()
         togglePopup()
-
-        setOpenRes(true)
-
+        setTimeout(() => setOpenRes(true), 500)
 
         fetch("https://teklifyap-backend.herokuapp.com/api/material/delete", {
             method: "POST",
@@ -33,14 +31,11 @@ export default function ProductB(props) {
             },
             body: JSON.stringify({
                 deleted: mateial_id,
-
             }),
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data);
                 data.success ? setRes({ success: true, message: data.message }) : setRes({ success: false, message: data.message })
-                // console.log(res);
             });
     }
 
@@ -74,36 +69,32 @@ export default function ProductB(props) {
                     </div>
                 </button>
 
-                {isOpen && <CustomPopup
-                    handleClose={togglePopup}
-                    content={
-                        <div className="d-flex justify-content-center flex-column p-4">
-
-                            <div className="d-flex justify-content-center align-items-center product-text mt-2">
-                                {props.title}
-                            </div>
-
-                            <form>
-                                <div className="d-flex flex-column justify-content-center mt-3">
-
-                                    <div className="text-center mb-3"> <span className="font-weight-bold"> ÖLÇÜ BİRİMİ:</span> {props.unit}  </div>
-
-                                    <div className="d-flex justify-content-center">
-                                        <button className="btn btn-danger" onClick={(e) => DeleteMaterial(e)}>Malzemeyi Sil</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    }
-                />
-                }
-
             </div>
+
+            <Modal show={isOpen} onHide={togglePopup} centered size="sm">
+                <Modal.Header className="bg-opacity-75 bg-primary user-select-none" closeButton>
+                    <Modal.Title> {props.title}</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <form>
+                        <div className="d-flex flex-column justify-content-center mt-3">
+
+                            <div className="text-center mb-3"> <span className="font-weight-bold"> ÖLÇÜ BİRİMİ:</span> {props.unit}  </div>
+
+                            <div className="d-flex justify-content-center">
+                                <button className="btn btn-danger" onClick={(e) => DeleteMaterial(e)}>Malzemeyi Sil</button>
+                            </div>
+                        </div>
+                    </form>
+                </Modal.Body>
+            </Modal>
+
             <Modal show={openRes} onHide={() => {
                 setOpenRes(false)
                 window.location.reload(false);
-            }} centered>
-                <Modal.Header className={res.success ? "bg-opacity-75 bg-success" : "bg-opacity-75 bg-danger"} closeButton>
+            }} centered size="sm">
+                <Modal.Header className={res.success ? "bg-opacity-75 bg-success" : "bg-opacity-75 bg-danger"} closeButton >
                     <Modal.Title>{!res.success ? "Hata" : "Başarılı!"}</Modal.Title>
                 </Modal.Header>
 
