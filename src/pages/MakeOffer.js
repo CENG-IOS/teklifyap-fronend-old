@@ -28,9 +28,7 @@ export default function MakeOffer(props) {
     const [selectedUserName, setSelectedUserName] = useState()
     const [selectedRowID, setSelectedRowID] = useState(-1)
     const [selectedMaterials, setSelectedMaterials] = useState([])
-    const [offerID, setOfferID] = useState(-1)
-    // const [updated_material_price_per_unit, setPrice_per_unit] = useState()
-    // const [updated_material_unit_quantity, setUnit_quantity] = useState()
+    const [warning, setWarning] = useState(false)
     const id = useSelector((state) => state.auth.userID);
     let values = {
         user_id: id,
@@ -39,14 +37,19 @@ export default function MakeOffer(props) {
     const [my_swiper, set_my_swiper] = useState({});
 
     const handleClose = () => {
-        setErrorSlide1(false);
-        setErrorSlide2(false)
-        setErrorSlide3(false)
+        if (errorSlide1)
+            setErrorSlide1(false)
+        else if (errorSlide2)
+            setErrorSlide2(false)
+        else if (errorSlide3)
+            setErrorSlide3(false)
+        else
+            setWarning(false)
     }
 
     useEffect(() => {
 
-        fetch(`https://teklifyap-backend.herokuapp.com/api/user/getFullName`, {
+        fetch(`http://localhost:8080/api/user/getFullName`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -68,7 +71,7 @@ export default function MakeOffer(props) {
     }
 
     function fetchForSlide2() {
-        fetch("https://teklifyap-backend.herokuapp.com/api/material/getMaterialByUser", {
+        fetch("http://localhost:8080/api/material/getMaterialByUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -155,7 +158,6 @@ export default function MakeOffer(props) {
             if (item.checked)
                 checked.push(item)
         }
-        // console.log(checked);
         if (checked.length == 0) {
             setErrorSlide2(true)
             return false
@@ -169,19 +171,65 @@ export default function MakeOffer(props) {
                     setErrorSlide3(true)
                     return false
                 }
-                // console.log(element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling);
                 selectedMaterials.push({
-                    material_id: element.parentElement.parentElement.id,
-                    material_name: element.parentElement.nextElementSibling.textContent,
-                    material_is_verified: 1,
-                    material_unit: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.textContent,
-                    material_price_per_unit: element.parentElement.nextElementSibling.nextElementSibling.textContent.trim(),
-                    material_unit_quantity: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim(),
+                    material: {
+                        material_id: element.parentElement.parentElement.id,
+                        material_name: element.parentElement.nextElementSibling.textContent,
+                        material_is_verified: 1,
+                        material_unit: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.textContent
+                    },
+                    offer: {
+                        offer_id: "-1"
+                    },
+                    offer_material_price_per_unit: element.parentElement.nextElementSibling.nextElementSibling.textContent.trim(),
+                    offer_material_unit_quantity: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim(),
                 })
             }
             setSelectedMaterials(selectedMaterials)
             return true
         }
+    }
+
+    function makeOffer() {
+        fetch("http://localhost:8080/api/offer/make", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                offer_title: selectedTitle,
+                offer_company_name: selectedCompanyName,
+                offer_status: false,
+                offer_total_price: 0,
+                offer_date: selectedDate,
+                offer_profit_rate: selectedProfitRate,
+                offer_username: selectedUserName,
+                user: {
+                    user_id: values.user_id
+                }
+            })
+        })
+            .then((response) => response.json())
+            .then((data) => {
+
+                selectedMaterials.forEach((item) => {
+                    item.offer.offer_id = data.data
+                })
+
+                fetch("http://localhost:8080/api/offerMaterial/makes", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(
+                        selectedMaterials
+                    )
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) setWarning(true)
+                    });
+            });
     }
 
     return (
@@ -243,7 +291,7 @@ export default function MakeOffer(props) {
                             <button className="btn btn-primary slide-btn p-0 mb-4" onClick={async (e) => {
                                 e.preventDefault()
                                 if (checkSlide1()) {
-                                    await fetchForSlide2()
+                                    fetchForSlide2()
                                     nextSlide(e)
                                 }
                                 else {
@@ -326,11 +374,11 @@ export default function MakeOffer(props) {
                                 {selectedMaterials.map((e, i) =>
                                     <tr key={i} >
                                         <td>{i + 1}</td>
-                                        <td>{e.material_name}</td>
-                                        <td>{e.material_price_per_unit} </td>
-                                        <td>{e.material_unit}</td>
-                                        <td>{e.material_unit_quantity} </td>
-                                        <td>{e.material_unit_quantity * e.material_price_per_unit} </td>
+                                        <td>{e.material.material_name}</td>
+                                        <td>{e.offer_material_price_per_unit} </td>
+                                        <td>{e.material.material_unit}</td>
+                                        <td>{e.offer_material_unit_quantity} </td>
+                                        <td>{e.offer_material_unit_quantity * e.offer_material_price_per_unit} </td>
                                     </tr>
                                 )}
 
@@ -338,77 +386,7 @@ export default function MakeOffer(props) {
                         </table>
 
                         <div className="d-flex justify-content-end">
-                            <button disabled className="btn btn-success mb-4" onClick={(e) => {
-                                const makeOffer1 = async () => {
-                                    const settings = {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                        },
-                                        body: JSON.stringify({
-                                            offer_title: selectedTitle,
-                                            offer_company_name: selectedCompanyName,
-                                            offer_status: false,
-                                            offer_total_price: 0,
-                                            offer_date: selectedDate,
-                                            offer_profit_rate: selectedProfitRate,
-                                            offer_username: selectedUserName,
-                                            user: {
-                                                user_id: values.user_id
-                                            }
-                                        }),
-                                    }
-                                    try {
-                                        const fetchResponse = await fetch(`https://teklifyap-backend.herokuapp.com/api/offer/make`, settings);
-                                        const data = await fetchResponse.json();
-                                        return data;
-                                    } catch (e) {
-                                        return e;
-                                    }
-                                }
-
-                                setOfferID(makeOffer1())
-
-
-
-                            }}>Teklif Yap </button>
-                            <button className="btn btn-success" disabled onClick={() => {
-
-
-                                const makeOffer2 = async (offer_id, material) => {
-                                    const settings = {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json",
-                                        },
-                                        body: JSON.stringify({
-                                            material: {
-                                                material_id: material.material_id
-                                            },
-                                            offer: {
-                                                offer_id: offer_id
-                                            },
-                                            offer_material_price_per_unit: material.material_price_per_unit,
-                                            offer_material_unit_quantity: material.material_unit_quantity
-                                        }),
-                                    }
-                                    try {
-                                        const fetchResponse = await fetch(`https://teklifyap-backend.herokuapp.com/api/offerMaterial/make`, settings);
-                                        const data = await fetchResponse.json();
-                                        return data;
-                                    } catch (e) {
-                                        return e;
-                                    }
-                                }
-
-                                for (let i = 0; i < selectedMaterials.length; i++) {
-                                    const element = selectedMaterials[i];
-                                    console.log(makeOffer2(offerID, element))
-                                    console.log(i + 1);
-                                }
-
-                            }
-                            } >Teklif Yap2</button>
+                            <button className="btn btn-success mb-4" onClick={makeOffer}>Teklif Yap </button>
                         </div>
                     </div>
 
@@ -417,9 +395,9 @@ export default function MakeOffer(props) {
             </Swiper>
 
 
-            <Modal show={errorSlide1 || errorSlide2 || errorSlide3} onHide={handleClose} centered>
-                <Modal.Header className="bg-opacity-75 bg-danger" closeButton>
-                    <Modal.Title>Hata</Modal.Title>
+            <Modal show={errorSlide1 || errorSlide2 || errorSlide3 || warning} onHide={handleClose} centered>
+                <Modal.Header className={warning ? "bg-opacity-75 bg-success" : "bg-opacity-75 bg-danger"} closeButton>
+                    <Modal.Title>{warning ? "Başarılı!" : "Hata"}</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -428,6 +406,8 @@ export default function MakeOffer(props) {
                     {errorSlide2 && "En az 1 öğe seçilmelidir!"
                     }
                     {errorSlide3 && "En az bir satırın birim fiyatı ya da birim miktarı sıfır!"
+                    }
+                    {warning && "Teklif başarılı bir şekilde yapıldı. Tekliflerim sekmesinden görüntüleyebilirsiniz!"
                     }
                 </Modal.Body>
             </Modal>
