@@ -49,7 +49,7 @@ export default function MakeOffer(props) {
 
     useEffect(() => {
 
-        fetch(`http://localhost:8080/api/user/getFullName`, {
+        fetch(`https://teklifyap-backend.herokuapp.com/api/user/getFullName`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export default function MakeOffer(props) {
     }
 
     function fetchForSlide2() {
-        fetch("http://localhost:8080/api/material/getMaterialByUser", {
+        fetch("https://teklifyap-backend.herokuapp.com/api/material/getMaterialByUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -191,7 +191,7 @@ export default function MakeOffer(props) {
     }
 
     function makeOffer() {
-        fetch("http://localhost:8080/api/offer/make", {
+        fetch("https://teklifyap-backend.herokuapp.com/api/offer/make", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -216,7 +216,7 @@ export default function MakeOffer(props) {
                     item.offer.offer_id = data.data
                 })
 
-                fetch("http://localhost:8080/api/offerMaterial/makes", {
+                fetch("https://teklifyap-backend.herokuapp.com/api/offerMaterial/makes", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
