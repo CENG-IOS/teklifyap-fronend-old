@@ -29,7 +29,6 @@ const App = () => {
   const Theme = useSelector((state) => state.theme.theme);
   const [progress, setProgress] = useState(0);
   document.body.style = !Theme ? null : "background: #40403E;";
-  document.body.style.transition = "all 1s";
 
   return (
     <BrowserRouter>
