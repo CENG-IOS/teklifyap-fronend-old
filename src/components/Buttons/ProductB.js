@@ -5,13 +5,14 @@ import rightVector from "../../images/rightVector.svg";
 import { useSelector } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
 import BaseURL from "../../api/BaseURL"
+import Col from 'react-bootstrap/Col'
 
 export default function ProductB(props) {
 
     const [isOpen, setIsOpen] = useState(false);
     const [openRes, setOpenRes] = useState(false);
     const [res, setRes] = useState({});
-    // const [resSuccess, setResSuccess] = useState({});
+    const [isSure, setIsSure] = useState(false);
     const [mateial_id, setMaterialID] = useState(props.material_id);
     const id = useSelector((state) => state.auth.userID);
 
@@ -19,10 +20,14 @@ export default function ProductB(props) {
         setIsOpen(!isOpen);
     }
 
-    const DeleteMaterial = (e) => {
-        e.preventDefault()
+    function openIsSure() {
         togglePopup()
-        setTimeout(() => setOpenRes(true), 500)
+        setIsSure(true)
+    }
+
+    const DeleteMaterial = () => {
+        setIsSure(false)
+        setTimeout(() => setOpenRes(true), 650)
 
         fetch(BaseURL + "api/material/delete", {
             method: "POST",
@@ -74,17 +79,14 @@ export default function ProductB(props) {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <form>
-                        <div className="d-flex flex-column justify-content-center mt-3">
-
-                            <div className="text-center mb-3"> <span className="font-weight-bold"> ÖLÇÜ BİRİMİ:</span> {props.unit}  </div>
-
-                            <div className="d-flex justify-content-center">
-                                <button className="btn btn-danger" onClick={(e) => DeleteMaterial(e)}>Malzemeyi Sil</button>
-                            </div>
-                        </div>
-                    </form>
+                    <div className="d-flex flex-column justify-content-center mt-3">
+                        <div className="text-center mb-3"> <span className="font-weight-bold"> ÖLÇÜ BİRİMİ:</span> {props.unit}  </div>
+                    </div>
                 </Modal.Body>
+
+                <Modal.Footer className="d-flex justify-content-center">
+                    <button className="btn btn-danger" onClick={openIsSure}>Malzemeyi Sil</button>
+                </Modal.Footer>
             </Modal>
 
             <Modal show={openRes} onHide={() => {
@@ -98,6 +100,24 @@ export default function ProductB(props) {
                 <Modal.Body>
                     {res.message}
                 </Modal.Body>
+            </Modal>
+
+            <Modal show={isSure} onHide={() => {
+                setIsSure(false)
+            }} centered size="sm">
+                <Modal.Header className="bg-opacity-75 bg-warning" closeButton >
+                    <Modal.Title>Emin misin?</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    Mazemeyi silmen ilgili tekliflerde de silmene yol açar!
+                </Modal.Body>
+
+                <Modal.Footer className="d-flex justify-content-evenly">
+                    <button className="btn btn-success col-3" onClick={DeleteMaterial} >Evet</button>
+                    <button className="btn btn-danger col-3" onClick={() => setIsSure(false)} >Hayır</button>
+
+                </Modal.Footer>
             </Modal>
 
         </>

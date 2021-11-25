@@ -50,7 +50,7 @@ export default function Inventory() {
     }, []);
 
 
-    function addProductHandler(e) {
+    function addProductHandler() {
         let productName = document.getElementById("product-name").value;
         let unit = document.getElementById("unit").value;
 
@@ -76,8 +76,11 @@ export default function Inventory() {
                 setIsopen(true)
             });
 
+        myArray.push(material)
+        setmyArray(myArray)
 
         handleClose()
+        window.location.reload(false)
     }
 
     function filterHandler() {
@@ -183,7 +186,7 @@ export default function Inventory() {
 
                                 <div className="col-2">
                                     <div className="d-flex justify-content-start">
-                                        <Button className="btn btn-primary" onClick={handleShow} >
+                                        <button className="btn btn-primary" onClick={handleShow} >
                                             <div className="d-flex flex-row">
                                                 <div className="plus" >
                                                     <i className="bi bi-plus-lg"></i>
@@ -193,7 +196,7 @@ export default function Inventory() {
                                                 </div>
                                             </div>
 
-                                        </Button>
+                                        </button>
                                     </div>
                                 </div>
 
@@ -229,38 +232,32 @@ export default function Inventory() {
                     <Modal.Header className="bg-opacity-75 bg-secondary" closeButton>
                         <Modal.Title>Yeni Malzeme</Modal.Title>
                     </Modal.Header>
-                    <form onSubmit={addProductHandler}>
-                        <Modal.Body>
-                            <div className="d-flex justify-content-around mb-3">
-                                <label className="col-5 user-select-none col-form-label me-3" htmlFor="product-name">MALZEME ADI:</label>
-                                <input className="form-control" type="text" id="product-name" name="product-name" />
-                            </div>
+                    <Modal.Body>
+                        <div className="d-flex justify-content-around mb-3">
+                            <label className="col-5 user-select-none col-form-label me-3" htmlFor="product-name">MALZEME ADI:</label>
+                            <input className="form-control" type="text" id="product-name" name="product-name" />
+                        </div>
 
-                            <div className="d-flex justify-content-around mb-3">
-                                <label className="col-5 user-select-none col-form-label me-3" htmlFor="unit">ÖLÇÜ BİRİMİ:</label>
-                                <select className="form-control" name="unit" id="unit">
-                                    <option value="-">-</option>
-                                    <option value="M2">M2</option>
-                                    <option value="M3">M3</option>
-                                    <option value="TON">TON</option>
-                                    <option value="ADET">ADET</option>
+                        <div className="d-flex justify-content-around mb-3">
+                            <label className="col-5 user-select-none col-form-label me-3" htmlFor="unit">ÖLÇÜ BİRİMİ:</label>
+                            <select className="form-control" name="unit" id="unit">
+                                <option value="-">-</option>
+                                <option value="M2">M2</option>
+                                <option value="M3">M3</option>
+                                <option value="TON">TON</option>
+                                <option value="ADET">ADET</option>
+                            </select>
+                        </div>
+                    </Modal.Body>
 
-                                </select>
-                            </div>
-                        </Modal.Body>
-
-                        <Modal.Footer>
-                            <Button className="btn btn-success" variant="primary" onClick={addProductHandler}>
-                                Ekle
-                            </Button>
-                        </Modal.Footer>
-                    </form>
+                    <Modal.Footer>
+                        <button className="btn btn-success" variant="primary" onClick={addProductHandler}>
+                            Ekle
+                        </button>
+                    </Modal.Footer>
                 </Modal>
 
-                <Modal show={isOpen} onHide={() => {
-                    setIsopen(false)
-                    window.location.reload()
-                }} centered size="sm">
+                <Modal show={isOpen} onHide={() => { setIsopen(false) }} centered size="sm">
                     <Modal.Header className="bg-opacity-75 bg-success" closeButton>
                         <Modal.Title>Başarılı!</Modal.Title>
                     </Modal.Header>
