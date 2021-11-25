@@ -3,9 +3,9 @@ import team from "../images/team.svg";
 import teamdescp from "../images/teamdescp.svg";
 
 import role from "../images/roles.png";
-import oe from "../images/oe.svg";
-import ic from "../images/ic.svg";
-import se from "../images/se.svg";
+import oe from "../images/oe.png";
+import ic from "../images/ic.png";
+import se from "../images/se.png";
 
 export const Team = () => {
   return (
@@ -14,7 +14,7 @@ export const Team = () => {
       <div className="position-relative team-descp flex-wrap">
         <img className="team-descp-img" src={teamdescp} alt='team-descp-img'></img>
     
-        <div className="container-fluid d-flex justify-content-center small-bg ">
+        <div className="container d-flex justify-content-center small-bg ">
           <div className="row position-relative p-0 m-0 names justify-content-around  ">
 
 
