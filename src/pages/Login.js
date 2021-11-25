@@ -10,6 +10,7 @@ import warnIng from "../images/warning.svg";
 import ToolTip from "../components/Inputs/ToolTip";
 import Modal from 'react-bootstrap/Modal'
 import BaseURL from '../api/BaseURL'
+import Spinner from 'react-bootstrap/Spinner'
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -198,8 +199,8 @@ const Login = () => {
                     <Modal.Title className="user-select-none">Giriş Yapılırken bekleyin!</Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body className="user-select-none">
-                    Sabrınız için teşekkür ederiz.
+                <Modal.Body className="d-flex justify-content-center">
+                    <Spinner animation="grow" />
                 </Modal.Body>
             </Modal>
         </React.Fragment>
