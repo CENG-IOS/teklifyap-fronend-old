@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import ProductB from "../components/Buttons/ProductB";
 import Footer from "../components/Footer";
-import LoadingBar from "react-top-loading-bar";
-import Wave from "react-wavify";
 import Modal from 'react-bootstrap/Modal';
 import BaseURL from '../api/BaseURL'
+import Waves from "../components/Waves";
 
 export default function Inventory() {
     const [myArray, setmyArray] = useState([]);
-    const [progress, setProgress] = useState(0);
     const [show, setShow] = useState(false);
     const [filterText, setFilterText] = useState("");
     const [res, setRes] = useState({});
@@ -49,7 +47,7 @@ export default function Inventory() {
                         setIsEmpty(true)
                     else {
                         setmyArray(data)
-                        
+
                     }
                 });
 
@@ -98,82 +96,20 @@ export default function Inventory() {
 
     return (
         <>
-            {/* <LoadingBar
-                color="#FFB400"
-                height="3px"
-                progress={progress}
-                onLoaderFinished={() => setProgress(0)}
-            /> */}
-            <div className="container-fluid p-0 position-relative ">
+            <div className="container-fluid p-0 position-relative">
 
                 <div className="positive-relative">
                     <div className="inventory-img-top-section"></div>
 
-                    <div className="position-absolute inventory-img w-100 toBackground">
-                        <Wave
-                            fill="url('#gradient1')"
-                            paused={false}
-                            options={{
-                                height: 1,
-                                amplitude: 20,
-                                speed: 0.2,
-                                points: 3,
-                            }}
-                        >
-                            <defs>
-                                <linearGradient id="gradient1" gradientTransform="rotate(90)">
-                                    <stop offset="10%" stopColor="#FFB400" />
-                                    <stop offset="90%" stopColor="#FFB400" />
-                                </linearGradient>
-                            </defs>
-                        </Wave>
-                    </div>
-                    <div className="position-absolute inventory-img1 mt-5 w-100 toBackground">
-                        <Wave
-                            fill="url('#gradient1')"
-                            paused={false}
-                            options={{
-                                height: 1,
-                                amplitude: 20,
-                                speed: 0.3,
-                                points: 3,
-                            }}
-                        >
-                            <defs>
-                                <linearGradient id="gradient1" gradientTransform="rotate(90)">
-                                    <stop offset="10%" stopColor="#FFB400" />
-                                    <stop offset="90%" stopColor="#FFB400" />
-                                </linearGradient>
-                            </defs>
-                        </Wave>
-                    </div>
-                    <div className="position-absolute inventory-img2 mt-4 w-100 toBackground">
-                        <Wave
-                            fill="url('#gradient1')"
-                            paused={false}
-                            options={{
-                                height: 1,
-                                amplitude: 20,
-                                speed: 0.4,
-                                points: 3,
-                            }}
-                        >
-                            <defs>
-                                <linearGradient id="gradient1" gradientTransform="rotate(90)">
-                                    <stop offset="10%" stopColor="#FFB400" />
-                                    <stop offset="90%" stopColor="#FFB400" />
-                                </linearGradient>
-                            </defs>
-                        </Wave>
-                    </div>
+                    <Waves />
 
                     <div className="d-flex justify-content-center ">
-                        <div className="position-absolute top-0 h3 user-select-none pt-md-4 pt-3">
+                        <div className="position-absolute top-0 h3 user-select-none pt-5">
                             ENVANTERİM
                         </div>
                     </div>
 
-                    <div className="container products-section">
+                    <div className="container products-section ">
 
                         <div className="col-12 p-2 px-5 search-bar round-corner">
                             <div className="d-flex flex-row">
@@ -211,7 +147,7 @@ export default function Inventory() {
                         </div>
 
                         <div className="d-flex justify-content-center ">
-                            <div className={isEmpty ? "w-100" :"d-flex flex-row flex-wrap justify-content-around"}>
+                            <div className={isEmpty ? "w-100" : "d-flex flex-row flex-wrap justify-content-around"}>
                                 {loading ?
                                     myArray.filter(item => {
                                         if (item.material_name.toLowerCase().includes(filterText))
@@ -244,46 +180,47 @@ export default function Inventory() {
                     </div>
                 </div>
 
-                <Modal show={show} onHide={handleClose} centered>
-                    <Modal.Header className="bg-opacity-75 bg-secondary" closeButton>
-                        <Modal.Title>Yeni Malzeme</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="d-flex justify-content-around mb-3">
-                            <label className="col-5 user-select-none col-form-label me-3" htmlFor="product-name">MALZEME ADI:</label>
-                            <input className="form-control" type="text" id="product-name" name="product-name" />
-                        </div>
-
-                        <div className="d-flex justify-content-around mb-3">
-                            <label className="col-5 user-select-none col-form-label me-3" htmlFor="unit">ÖLÇÜ BİRİMİ:</label>
-                            <select className="form-control" name="unit" id="unit">
-                                <option value="-">-</option>
-                                <option value="M2">M2</option>
-                                <option value="M3">M3</option>
-                                <option value="TON">TON</option>
-                                <option value="ADET">ADET</option>
-                            </select>
-                        </div>
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                        <button className="btn btn-success" variant="primary" onClick={addProductHandler}>
-                            Ekle
-                        </button>
-                    </Modal.Footer>
-                </Modal>
-
-                <Modal show={isOpen} onHide={() => { setIsopen(false) }} centered size="sm">
-                    <Modal.Header className="bg-opacity-75 bg-success" closeButton>
-                        <Modal.Title>Başarılı!</Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                        {res.message}
-                    </Modal.Body>
-                </Modal>
-
             </div>
+
+            <Modal show={show} onHide={handleClose} centered>
+                <Modal.Header className="bg-opacity-75 bg-secondary" closeButton>
+                    <Modal.Title>Yeni Malzeme</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="d-flex justify-content-around mb-3">
+                        <label className="col-5 user-select-none col-form-label me-3" htmlFor="product-name">MALZEME ADI:</label>
+                        <input className="form-control" type="text" id="product-name" name="product-name" />
+                    </div>
+
+                    <div className="d-flex justify-content-around mb-3">
+                        <label className="col-5 user-select-none col-form-label me-3" htmlFor="unit">ÖLÇÜ BİRİMİ:</label>
+                        <select className="form-control" name="unit" id="unit">
+                            <option value="-">-</option>
+                            <option value="M2">M2</option>
+                            <option value="M3">M3</option>
+                            <option value="TON">TON</option>
+                            <option value="ADET">ADET</option>
+                        </select>
+                    </div>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <button className="btn btn-success" variant="primary" onClick={addProductHandler}>
+                        Ekle
+                    </button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={isOpen} onHide={() => { setIsopen(false) }} centered size="sm">
+                <Modal.Header className="bg-opacity-75 bg-success" closeButton>
+                    <Modal.Title>Başarılı!</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    {res.message}
+                </Modal.Body>
+            </Modal>
+
             <Footer />
         </>
     );

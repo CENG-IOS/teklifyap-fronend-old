@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
 import BaseURL from '../api/BaseURL'
 import Modal from 'react-bootstrap/Modal';
+import Waves from "../components/Waves";
 
 export default function Offers() {
     const [offersInfo, setOffersInfo] = useState([]);
@@ -55,44 +56,50 @@ export default function Offers() {
 
     return (
         <>
-            <div className="container-fluid p-0">
-                <div className="d-flex justify-content-center position-relative">
-                    <div className="position-absolute text-white h3 user-select-none pt-md-4 pt-3">
-                        TEKLİFLERİM
+            <div className="container-fluid p-0 position-relative">
+
+                <div className="positive-relative">
+                    <div className="inventory-img-top-section"></div>
+
+                    <Waves />
+
+                    <div className="d-flex justify-content-center">
+                        <div className=" top-0 h3 user-select-none">
+                            TEKLİFLERİM
+                        </div>
+                    </div>
+
+                    <div className="container offers-section">
+                        <Offer title="Teklif Başlığı" date="Tarih" header="true" />
+                        {offersInfo.map((item) =>
+                            <Offer
+                                m={getTableDatas}
+                                key={item.offer_id}
+                                offer_id={item.offer_id}
+                                title={item.offer_title}
+                                date={item.offer_date.slice(0, 10)}
+                                status={item.offer_status}
+                            />
+                        )}
+                        {loading &&
+                            <Offer
+                                m={getTableDatas}
+                                key="placeholder"
+                                offer_id="placeholder"
+                                title="placeholder"
+                                date="placeholder"
+                                status="placeholder"
+                            />}
+
+                        {isEmpty &&
+                            <div className="text-center bg-warning p-3 rounded-pill user-select-none font-weight-bold">
+                                Görünüşe göre gösterilecek bir teklifiniz yok. Teklif yapmak için sağ üstteki tuşa basınız!
+                            </div>
+                        }
+
                     </div>
                 </div>
 
-                <img src={offerSVG} alt="offer"></img>
-
-                <div className="container-lg mt-5">
-                    <Offer title="Teklif Başlığı" date="Tarih" header="true" />
-                    {offersInfo.map((item) =>
-                        <Offer
-                            m={getTableDatas}
-                            key={item.offer_id}
-                            offer_id={item.offer_id}
-                            title={item.offer_title}
-                            date={item.offer_date.slice(0, 10)}
-                            status={item.offer_status}
-                        />
-                    )}
-                    {loading &&
-                        <Offer
-                            m={getTableDatas}
-                            key="placeholder"
-                            offer_id="placeholder"
-                            title="placeholder"
-                            date="placeholder"
-                            status="placeholder"
-                        />}
-
-                    {isEmpty &&
-                        <div className="text-center bg-warning p-3 rounded-pill user-select-none font-weight-bold">
-                            Görünüşe göre gösterilecek bir teklifiniz yok. Teklif yapmak için sağ üstteki tuşa basınız!
-                        </div>
-                    }
-
-                </div>
             </div>
             <Footer />
 

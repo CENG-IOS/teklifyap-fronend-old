@@ -102,7 +102,7 @@ const Profile = () => {
                     <div className={!Theme ?
                         loading ? "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary text-white round" : "col-11 col-sm-5 col-md-4 mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary round"
                         :
-                        loading ? "profile-wrapper mt-3 mb-4 p-5 pt-4  bg-light text-dark round" : "mt-3 mb-4 p-5 pt-4 col-4 bg-light text-dark round"
+                        loading ? "profile-wrapper mt-3 mb-4 p-5 pt-4  bg-light text-dark round" : "col-11 col-sm-5 col-md-4 mt-3 mb-4 p-5 pt-4 bg-light text-dark round"
                     }>
                         {loading ?
                             <div className="user-select-none text-center mt-3 h2">{info.user_name + ' ' + info.user_surname}</div>

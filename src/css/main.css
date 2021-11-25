@@ -1,9 +1,27 @@
 /**abstracts**/
 /*dark theme*/
-.h3 {
-  font-size: 3.5vw;
-  font-family: "Open Sans", sans-serif;
-  font-weight: bold;
+@media screen and (min-width: 1024px) {
+  .h3 {
+    font-size: 4.5rem;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .h3 {
+    font-size: 3.5rem;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+  }
+}
+
+@media screen and (min-width: 300px) and (max-width: 768px) {
+  .h3 {
+    font-size: 2.5rem;
+    font-family: "Open Sans", sans-serif;
+    font-weight: bold;
+  }
 }
 
 /**components**/
@@ -1613,92 +1631,6 @@
 }
 
 /**pages**/
-#filter-More {
-  display: none;
-}
-
-.filter-more {
-  border-color: #FFB400;
-  border-radius: 8px;
-  border-style: solid;
-  border-width: 3px;
-}
-
-.popup-box {
-  position: fixed;
-  -webkit-backdrop-filter: blur(3px);
-          backdrop-filter: blur(3px);
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  -webkit-animation-name: blur;
-          animation-name: blur;
-  -webkit-animation-duration: 0.5s;
-          animation-duration: 0.5s;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-}
-
-.box {
-  position: relative;
-  height: auto;
-  min-width: 400px;
-  max-width: 600px;
-  max-height: 70vh;
-  margin-top: 30vh;
-  background: #fff;
-  border-radius: 20px;
-  overflow: auto;
-  -webkit-animation-name: box;
-          animation-name: box;
-  -webkit-animation-duration: 0.25s;
-          animation-duration: 0.25s;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-}
-
-.close-icon {
-  position: absolute;
-  right: 5px;
-  top: 5px;
-  width: 35px;
-  height: 35px;
-  line-height: 0px;
-  font-size: 20px;
-  z-index: 6;
-}
-
-@-webkit-keyframes box {
-  from {
-    opacity: 0;
-    margin-top: 27vh;
-    margin-right: 25px;
-  }
-  to {
-    opacity: 1;
-    margin-top: 30vh;
-  }
-}
-
-@keyframes box {
-  from {
-    opacity: 0;
-    margin-top: 27vh;
-    margin-right: 25px;
-  }
-  to {
-    opacity: 1;
-    margin-top: 30vh;
-  }
-}
-
-.cross {
-  right: 0;
-  z-index: 6;
-}
-
 .product-wrapper {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
@@ -1727,7 +1659,7 @@
 .inventory-img-top-section {
   background-color: #FFB400;
   width: 100%;
-  height: 75px;
+  height: 40px;
 }
 
 .products-section {
@@ -1906,6 +1838,10 @@
 .offer-negatif {
   background-color: #FB6241;
   opacity: 0.5;
+}
+
+.offers-section {
+  margin-top: 160px;
 }
 
 .bg-2 {
