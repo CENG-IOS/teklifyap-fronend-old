@@ -13,15 +13,14 @@ import PasswordP from "./pages/PasswordP";
 import { NotFound } from "./pages/NotFound";
 import { useSelector } from "react-redux";
 import ScrollToTop from "./components/Animations/ScrollToTop";
-import LoadingBar from "react-top-loading-bar";
 
-const ProfilePage = React.lazy(() => import("./pages/Profile"));
-const HomePage = React.lazy(() => import("./pages/Home"));
-const OffersPage = React.lazy(() => import("./pages/Offers"));
-const InventoryPage = React.lazy(() => import("./pages/Inventory"));
-const RegisterPage = React.lazy(() => import("./pages/Register"));
-const LoginPage = React.lazy(() => import("./pages/Login"));
-const MakeOfferPage = React.lazy(() => import("./pages/MakeOffer"));
+import HomePage from "./pages/Home";
+import OffersPage from "./pages/Offers";
+import InventoryPage from "./pages/Inventory";
+import ProfilePage from "./pages/Profile";
+import RegisterPage from "./pages/Register";
+import LoginPage from "./pages/Login";
+import MakeOfferPage from "./pages/MakeOffer";
 
 
 const App = () => {
@@ -37,26 +36,7 @@ const App = () => {
         <Navbar></Navbar>
       </div>
       <div className="nav-space">
-        <Suspense
-          fallback={
-            <div className="bg-primary">
-              <div
-                className="spinner-border"
-                style={{ width: "3rem", height: "3rem" }}
-                role="status"
-              >
-                <span className="sr-only">Loading...</span>
-              </div>
-              <div
-                className="spinner-grow"
-                style={{ width: "3rem", height: "3rem" }}
-                role="status"
-              >
-                <span className="sr-only">Loading...</span>
-              </div>
-            </div>
-          }
-        >
+     
           <Switch>
             <Route exact path="/">
               <HomePage />
@@ -92,7 +72,7 @@ const App = () => {
             {/* <Route path="*" component={NotFound}></Route>*/}
             {!Auth && <Redirect to="/Login" />}
           </Switch>
-        </Suspense>
+     
       </div>
     </BrowserRouter>
   );
