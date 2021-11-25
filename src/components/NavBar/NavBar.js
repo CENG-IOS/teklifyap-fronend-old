@@ -517,6 +517,13 @@ const Navbar = () => {
                             </NavLink>
                         </li>
 
+                        <li className="each-link-out d-flex justify-content-center ">
+                        {!Auth ?  <div>
+                            <THEME></THEME>
+                        </div>: null}
+                       
+                        </li>
+
                         {!(!Auth && GetPath() == "/") ? (
                             <li className="each-link-out d-flex justify-content-center ">
                                 <NavLink

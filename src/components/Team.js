@@ -14,7 +14,7 @@ export const Team = () => {
       <div className="position-relative team-descp flex-wrap">
         <img className="team-descp-img" src={teamdescp} alt='team-descp-img'></img>
     
-        <div className="container d-flex justify-content-center small-bg ">
+        <div className="container-fluid d-flex justify-content-center small-bg ">
           <div className="row position-relative p-0 m-0 names justify-content-around  ">
 
 
