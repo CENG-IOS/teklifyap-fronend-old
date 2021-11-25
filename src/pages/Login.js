@@ -51,6 +51,8 @@ const Login = () => {
             .then((response) => response.json())
             .then((data) => {
                 setInfo(data)
+                if (!data.success)
+                    setWarning(false)
             });
     };
     useEffect(() => {
