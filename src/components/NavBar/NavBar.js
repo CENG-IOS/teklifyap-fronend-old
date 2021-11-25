@@ -244,10 +244,12 @@ const Navbar = () => {
                                             >
                                                 BİLGİLERİM
                                             </NavLink>
-                                            <div>
-
-                                                <THEME></THEME>
-                                            </div>
+                                            {!Auth ?
+                                                <div className="mb-3">
+                                                    <THEME></THEME>
+                                                </div>
+                                                :
+                                                <THEME></THEME>}
                                             {Auth && (
                                                 <NavLink
                                                     onClick={logoutHandler}
