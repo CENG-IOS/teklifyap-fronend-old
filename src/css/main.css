@@ -1503,6 +1503,10 @@
   position: absolute;
 }
 
+.small-bg {
+  display: none;
+}
+
 .circle1 {
   width: 150px;
   height: 150px;
@@ -1534,18 +1538,6 @@
 }
 
 .thirdPerson {
-  margin-top: -4%;
-}
-
-.forthPerson {
-  margin-top: -3%;
-}
-
-.fifthPerson {
-  margin-top: -1%;
-}
-
-.sixthPerson {
   margin-top: 2%;
 }
 
@@ -1555,6 +1547,16 @@
   color: #fff;
   font-family: "Asap Condensed", sans-serif;
   font-weight: bolder;
+}
+
+.logo-circled {
+  border-radius: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .small-bg {
+    background-color: #474746;
+  }
 }
 
 .vision-img {
@@ -1879,10 +1881,6 @@
   z-index: 2;
 }
 
-.bg-light-custom {
-  background-color: #bebaba;
-}
-
 .not-found-logo {
   width: 455px;
   margin-top: 55px;
@@ -2107,4 +2105,3 @@
 .secondLine-off-default-theme {
   background-color: black;
 }
-/*# sourceMappingURL=main.css.map */

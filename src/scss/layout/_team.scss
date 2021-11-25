@@ -5,6 +5,10 @@
     object-position: top;
     position: absolute;
 }
+.small-bg{
+    display: none;
+}
+
 .circle1{
     width:150px;
     height:150px;
@@ -33,17 +37,10 @@
 .secondPerson{
     margin-top: -3%;
 }
+
 .thirdPerson{
-    margin-top: -4%;
-}
-.forthPerson{
-    margin-top: -3%;
-}
-.fifthPerson{
-    margin-top: -1%;
-}
-.sixthPerson{
     margin-top: 2%;
+    
 }
 
 .role-descp{
@@ -52,4 +49,16 @@
     color: $white;
     font-family: $AsapCon;
     font-weight: bolder;
+}
+
+.logo-circled{
+    border-radius: 100%;
+}
+
+@media screen and(max-width: 768px) {
+    
+    .small-bg{
+        background-color: $grey;
+    }
+
 }

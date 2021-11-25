@@ -40,8 +40,8 @@ export default class Footer extends Component {
                     <div className="position-relative text-center find-us mt-4 ">
                         FIND US
                     </div>
-                    <div className="position-relative d-flex justify-content-center mt-2">
-                        <div className="w-25 d-flex justify-content-around">
+                    <div className="position-relative d-flex justify-content-center mt-2 ">
+                        <div className="w-25 d-flex justify-content-around mb-3">
                             <img className="icon" src={icon} alt='icon'></img>
                             <img className="icon" src={icon} alt='icon'></img>
                             <img className="icon" src={icon} alt='icon'></img>
@@ -49,9 +49,7 @@ export default class Footer extends Component {
                             <img className="icon" src={icon} alt='icon'></img>
                         </div>
                     </div>
-                    <div className="position-relative text-center copyright2021 mt-2 pb-3">
-                        COPYRIGHT 2021
-                    </div>
+                   
                 </div>
             </div>
         );
