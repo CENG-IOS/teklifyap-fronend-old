@@ -9,6 +9,7 @@ import LoadingBar from "react-top-loading-bar";
 import { useSelector } from "react-redux";
 import ToolTip from "../components/Inputs/ToolTip";
 import Modal from 'react-bootstrap/Modal';
+import BaseURL from '../api/BaseURL'
 
 const Register = (props) => {
     const [name, setName] = useState("");
@@ -88,7 +89,7 @@ const Register = (props) => {
         if (warning.length < 1)
             setWarningPop(true)
 
-        fetch("https://teklifyap-backend.herokuapp.com/api/user/add", {
+        fetch(BaseURL + "api/user/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

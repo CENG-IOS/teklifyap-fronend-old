@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import leftVector from "../../images/leftVector.svg";
 import middleVector from "../../images/middleVector.svg";
 import rightVector from "../../images/rightVector.svg";
-import CustomPopup from "../../pages/CustomPopup";
 import { useSelector } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
+import BaseURL from "../../api/BaseURL"
 
 export default function ProductB(props) {
 
@@ -24,7 +24,7 @@ export default function ProductB(props) {
         togglePopup()
         setTimeout(() => setOpenRes(true), 500)
 
-        fetch("https://teklifyap-backend.herokuapp.com/api/material/delete", {
+        fetch(BaseURL + "api/material/delete", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

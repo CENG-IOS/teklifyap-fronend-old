@@ -9,70 +9,6 @@
     border-width: 3px;
 }
 
-// #blur.active {
-//     filter: blur(10px);
-//     background-color: rgba(136, 132, 133, 0.438);
-//     pointer-events: none;
-//     user-select: none;
-// }
-
-// #popup {
-//     position: fixed;
-//     top: 40%;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-//     visibility: hidden;
-//     opacity: 0;
-//     transition: 0.5s;
-//     display: flex;
-//     flex-direction: column;
-// }
-
-// #popup.active {
-//     top: 45%;
-//     visibility: visible;
-//     opacity: 1;
-//     transition: 0.5s;
-// }
-
-// .product-btn-popup {
-//     border-radius: 14px;
-//     background-color: white;
-// }
-
-// .rightVpopup {
-//     opacity: 1;
-//     width: 200px;
-//     position: absolute;
-//     margin-top: 30px;
-//     margin-left: 25px;
-// }
-
-// .middleVpopup {
-//     opacity: 1;
-//     margin-top: -15px;
-//     width: 240px;
-//     z-index: 1;
-// }
-
-// .leftVpopup {
-//     opacity: 1;
-//     width: 200px;
-//     margin-top: 10px;
-//     margin-right: 125px;
-//     z-index: 0;
-//     position: absolute;
-// }
-
-// .cross {
-//     width: 105px;
-// }
-
-// .product-text-popup {
-//     //transform: translateY(-180%);
-// }
-
-/* Popup style */
 .popup-box {
     position: fixed;
     backdrop-filter: blur(3px);
@@ -88,7 +24,6 @@
 
 .box {
     position: relative;
-    // margin: 0 auto;
     height: auto;
     min-width: 400px;
     max-width: 600px;
@@ -96,10 +31,7 @@
     margin-top: 30vh;
     background: #fff;
     border-radius: 20px;
-    // padding: 20px;
-    // border: 1px solid #999;
     overflow: auto;
-    // width: 750px;
     animation-name: box;
     animation-duration: 0.25s;
     animation-fill-mode: forwards;

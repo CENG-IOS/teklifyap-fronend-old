@@ -6,6 +6,7 @@ import LoadingBar from "react-top-loading-bar";
 import Wave from "react-wavify";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import BaseURL from '../api/BaseURL'
 
 export default function Inventory() {
     const [myArray, setmyArray] = useState([]);
@@ -30,7 +31,7 @@ export default function Inventory() {
     }, []);
 
     useEffect(() => {
-        fetch("https://teklifyap-backend.herokuapp.com/api/material/getMaterialByUser", {
+        fetch(BaseURL + "api/material/getMaterialByUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -39,9 +40,7 @@ export default function Inventory() {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 setmyArray(data)
-
             });
     }, []);
 
@@ -59,7 +58,7 @@ export default function Inventory() {
             }
         }
 
-        fetch("https://teklifyap-backend.herokuapp.com/api/material/add", {
+        fetch(BaseURL + "api/material/add", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -13,7 +13,6 @@ export default function Home() {
 
   useEffect(() => {
     ScrollAnimation();
-    console.log('working')
   },[GetPath()]);
 
   return (

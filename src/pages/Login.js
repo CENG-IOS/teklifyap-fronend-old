@@ -9,6 +9,7 @@ import { AuthActions } from "../store/slices/Auth";
 import warnIng from "../images/warning.svg";
 import ToolTip from "../components/Inputs/ToolTip";
 import Modal from 'react-bootstrap/Modal'
+import BaseURL from '../api/BaseURL'
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -40,7 +41,7 @@ const Login = () => {
             user_password: password,
         };
 
-        fetch("https://teklifyap-backend.herokuapp.com/api/user/getByEmailAndPassword", {
+        fetch(BaseURL + "api/user/getByEmailAndPassword", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -49,7 +50,6 @@ const Login = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log("data öncesi");
                 setInfo(data)
             });
     };
@@ -190,7 +190,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            
+
             <Modal show={warning} centered backdrop="static" size="sm">
                 <Modal.Header className="bg-opacity-75 bg-warning">
                     <Modal.Title className="user-select-none">Giriş Yapılırken bekleyin!</Modal.Title>

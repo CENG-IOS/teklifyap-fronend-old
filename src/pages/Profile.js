@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Buttons from "../components/Buttons/Buttons";
 import { useSelector } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
+import BaseURL from '../api/BaseURL'
 
 const Profile = () => {
     const [info, setInfo] = useState({});
@@ -30,8 +31,6 @@ const Profile = () => {
         const date = new Date(info.user_creation_date)
         const year = date.getFullYear()
         const month = date.toLocaleString('default', { month: 'long' });
-
-        console.log(year + " " + month);
         return {
             year: year,
             month: month
@@ -53,7 +52,7 @@ const Profile = () => {
             user_creation_date: date.toISOString().split('T')[0]
         }
 
-        fetch("https://teklifyap-backend.herokuapp.com/api/user/updateInformation", {
+        fetch(BaseURL + `api/user/updateInformation`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -62,7 +61,6 @@ const Profile = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 if (data.success) {
                     setSuccess(true)
                 } else {
@@ -79,7 +77,7 @@ const Profile = () => {
     }
 
     useEffect(() => {
-        fetch("https://teklifyap-backend.herokuapp.com/api/user/userProfile", {
+        fetch(BaseURL + `api/user/userProfile`, {
             method: "POST",
 
             headers: {

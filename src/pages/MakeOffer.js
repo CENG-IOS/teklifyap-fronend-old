@@ -9,6 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import BaseURL from '../api/BaseURL'
 
 SwiperCore.use([Mousewheel, Pagination]);
 
@@ -51,7 +52,7 @@ export default function MakeOffer(props) {
 
     useEffect(() => {
 
-        fetch(`https://teklifyap-backend.herokuapp.com/api/user/getFullName`, {
+        fetch(BaseURL + `api/user/getFullName`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -73,7 +74,7 @@ export default function MakeOffer(props) {
     }
 
     function fetchForSlide2() {
-        fetch("https://teklifyap-backend.herokuapp.com/api/material/getMaterialByUser", {
+        fetch(BaseURL + "api/material/getMaterialByUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -82,7 +83,6 @@ export default function MakeOffer(props) {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data);
                 const temp = new Array()
                 for (let i = 0; i < data.length; i++) {
                     let newElement = {
@@ -95,17 +95,14 @@ export default function MakeOffer(props) {
                     }
                     temp.push(newElement)
                 }
-                // console.log(temp);
                 setRealData(temp)
             });
 
     }
 
     function updateTable() {
-        // console.log(realData[selectedRowID]);
         realData[selectedRowID].material_price_per_unit = document.getElementById("price_per_unit").value
         realData[selectedRowID].material_unit_quantity = document.getElementById("unit_quantity").value
-        // console.log(realData);
         setBtnEdit(false)
     }
 
@@ -193,7 +190,7 @@ export default function MakeOffer(props) {
     }
 
     function makeOffer() {
-        fetch("https://teklifyap-backend.herokuapp.com/api/offer/make", {
+        fetch(BaseURL + "api/offer/make", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -218,7 +215,7 @@ export default function MakeOffer(props) {
                     item.offer.offer_id = data.data
                 })
 
-                fetch("https://teklifyap-backend.herokuapp.com/api/offerMaterial/makes", {
+                fetch(BaseURL + "api/offerMaterial/makes", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
