@@ -1,55 +1,47 @@
 .swiper-button-next {
-  background-image: url(../../images/arrow-01.svg);
-  background-repeat: no-repeat;
-  background-size: 120% auto;
-  background-position: center;
-  margin-top: -18%;
-  width: 8%;
-  height: 80%;
-  padding: 5%;
-}
-.swiper-button-next::after {
-  display: none;
+    background-image: url(../../images/arrow-01.svg);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center;
+    color: #22b14c;
+    margin-top: -21%;
+    width: 6%;
+    height: 100%;
 }
 
 .swiper-button-prev {
-  background-image: url(../../images/leftArrow-01.svg);
-  background-repeat: no-repeat;
-  background-size: 120% auto;
-  background-position: center;
-  margin-top: -18%;
-  width: 8%;
-  height: 80%;
-  padding: 5%;
+    background-image: url(../../images/leftArrow-01.svg);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center;
+    color: #22b14c;
+    margin-top: -21%;
+    width: 6%;
+    height: 100%;
 }
+
 .swiper-button-prev:hover {
-  background-color: rgba(0, 0, 0, 0.247);
-  transition: all 0.5s;
+    background-color: rgba(0, 0, 0, 0.247);
+    transition: all 0.5s;
 }
+
 .swiper-button-next:hover {
     background-color: rgba(0, 0, 0, 0.247);
     transition: all 0.5s;
-  }
+}
+
 .swiper-button-prev::after {
-  display: none;
+    display: none;
 }
-.swiper-button-prev {
-  color: #22b14c;
+
+.swiper-button-next::after {
+    display: none;
 }
-.swiper-pagination-bullet-active {
-  color: #fff;
-  background: #22b14c;
-  padding: 1%;
+
+.swiper-pagination-progressbar {
+    background-color: #22b14c;
 }
-.swiper-pagination-bullet {
-  background-color: #22b14c;
-  opacity: 1;
-}
-.swiper-container {
-  width: 100%;z-index: 0;
-}
-.swiper-container img {
-  width: 25%;
-  height: auto;
-  
+
+.swiper-pagination-progressbar-fill {
+    background-color: yellow;
 }
