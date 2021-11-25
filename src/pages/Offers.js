@@ -15,9 +15,12 @@ export default function Offers() {
     const [title, setTitle] = useState("");
     const [date, setDate] = useState("");
     const [isEmpty, setIsEmpty] = useState(false);
+    const [loading, setLoading] = useState(true);
+
     const toggleExamine = () => {
         setExamine(!examine)
     }
+
     let values = {
         id: id.toString()
     };
@@ -30,20 +33,24 @@ export default function Offers() {
     }
 
     useEffect(() => {
-        fetch(BaseURL + `api/offer/getOffers`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values)
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.data.length === 0)
-                    setIsEmpty(true)
-                else
-                    setOffersInfo(data.data)
-            });
+        setTimeout(() => {
+            fetch(BaseURL + `api/offer/getOffers`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values)
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setLoading(false)
+                    if (data.data.length === 0)
+                        setIsEmpty(true)
+                    else
+                        setOffersInfo(data.data)
+                });
+        }, 600);
+
     }, []);
 
     return (
@@ -69,6 +76,16 @@ export default function Offers() {
                             status={item.offer_status}
                         />
                     )}
+                    {loading &&
+                        <Offer
+                            m={getTableDatas}
+                            key="placeholder"
+                            offer_id="placeholder"
+                            title="placeholder"
+                            date="placeholder"
+                            status="placeholder"
+                        />}
+
                     {isEmpty &&
                         <div className="text-center bg-warning p-3 rounded-pill user-select-none font-weight-bold">
                             Görünüşe göre gösterilecek bir teklifiniz yok. Teklif yapmak için sağ üstteki tuşa basınız!

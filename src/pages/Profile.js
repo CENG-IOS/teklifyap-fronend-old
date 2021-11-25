@@ -3,18 +3,20 @@ import Buttons from "../components/Buttons/Buttons";
 import { useSelector } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
 import BaseURL from '../api/BaseURL'
+import Placeholder from 'react-bootstrap/Placeholder'
 
 const Profile = () => {
     const [info, setInfo] = useState({});
     const [dataSuccess, setSuccess] = useState(false);
-    // const [dataError, setError] = useState(false);
     const id = useSelector((state) => state.auth.userID);
     const Theme = useSelector((state) => state.theme.theme);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen2, setIsOpen2] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     let values = {
         user_id: id,
     };
-    const [isOpen, setIsOpen] = useState(false);
-    const [isOpen2, setIsOpen2] = useState(false);
 
     const togglePopup = () => {
         setIsOpen(!isOpen);
@@ -85,7 +87,10 @@ const Profile = () => {
             body: JSON.stringify(values),
         })
             .then((response) => response.json())
-            .then((data) => setInfo(data.data));
+            .then((data) => {
+                setInfo(data.data)
+                setLoading(true)
+            });
     }, [])
 
 
@@ -94,8 +99,18 @@ const Profile = () => {
 
             <div className="container position-relative ">
                 <div className="d-flex justify-content-center ">
-                    <div className={!Theme ? "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary text-white round" : "profile-wrapper mt-3 mb-4 p-5 pt-4  bg-light text-dark round"}>
-                        <div className="user-select-none text-center mt-3 h2">{info.user_name + ' ' + info.user_surname}</div>
+                    <div className={!Theme ?
+                        loading ? "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary text-white round" : "col-11 col-sm-5 col-md-4 mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary round"
+                        :
+                        loading ? "profile-wrapper mt-3 mb-4 p-5 pt-4  bg-light text-dark round" : "mt-3 mb-4 p-5 pt-4 col-4 bg-light text-dark round"
+                    }>
+                        {loading ?
+                            <div className="user-select-none text-center mt-3 h2">{info.user_name + ' ' + info.user_surname}</div>
+                            :
+                            <Placeholder as="p" animation="glow">
+                                <Placeholder xs={12} size="lg" />
+                            </Placeholder>
+                        }
 
                         <div className="d-flex justify-content-center mt-3">
                             <div className="profile-circle"></div>
@@ -104,14 +119,14 @@ const Profile = () => {
                         <div className="d-flex flex-row mt-3 mb-3">
                             <div className="d-flex justify-content-center flex-column col-3 ms-5">
                                 <label
-                                    className="profile-info profile-info-label"
+                                    className="profile-info profile-info-label text-white"
                                     htmlFor="remember"
                                 >
                                     Email:
                                 </label>
 
                                 <label
-                                    className="profile-info profile-info-label"
+                                    className="profile-info profile-info-label text-white"
                                     htmlFor="remember"
                                 >
                                     Şifre:
@@ -119,12 +134,30 @@ const Profile = () => {
                             </div>
 
                             <div className="d-flex flex-column col-8">
-                                <div className="d-inline profile-info"> {info.user_email}</div>
-                                <div className="d-inline profile-info">*********</div>
+                                {loading ?
+                                    <>
+                                        <div className="d-inline profile-info"> {info.user_email}</div>
+                                        <div className="d-inline profile-info">*********</div>
+                                    </> :
+                                    <>
+                                        <Placeholder as="p" animation="glow">
+                                            <Placeholder xs={12} size="lg" />
+                                        </Placeholder>
+                                        <Placeholder as="p" animation="glow">
+                                            <Placeholder xs={12} size="lg" />
+                                        </Placeholder>
+                                    </>
+                                }
                             </div>
                         </div>
 
-                        <div className="d-inline profile-info ">Kullanıcı <b>{dateConverter().year}</b>  yılının <b>{dateConverter().month.toLowerCase()}</b> ayında kaydoldu.</div>
+                        {loading ?
+                            <div className="d-inline profile-info ">Kullanıcı <b>{dateConverter().year}</b>  yılının <b>{dateConverter().month.toLowerCase()}</b> ayında kaydoldu.</div>
+                            :
+                            <Placeholder as="p" animation="glow">
+                                <Placeholder xs={12} size="lg" />
+                            </Placeholder>
+                        }
 
                         <div className="d-flex justify-content-end p-0 mt-5">
                             <Buttons clicked={togglePopup} title="Bilgilerimi Düzenle"></Buttons>
@@ -202,6 +235,7 @@ const Profile = () => {
                     {dataSuccess ? "Bilgileriniz güncellendi!" : "Lütfen daha sonra tekrar deneyiniz!"}
                 </Modal.Body>
             </Modal>
+
         </React.Fragment>
     );
 };

@@ -4,7 +4,6 @@ import ProductB from "../components/Buttons/ProductB";
 import Footer from "../components/Footer";
 import LoadingBar from "react-top-loading-bar";
 import Wave from "react-wavify";
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import BaseURL from '../api/BaseURL'
 
@@ -17,6 +16,7 @@ export default function Inventory() {
     const [isOpen, setIsopen] = useState(false);
     const id = useSelector((state) => state.auth.userID);
     const [isEmpty, setIsEmpty] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     let values = {
         user_id: id,
@@ -33,20 +33,28 @@ export default function Inventory() {
     }, []);
 
     useEffect(() => {
-        fetch(BaseURL + "api/material/getMaterialByUser", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(values),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.length === 0)
-                    setIsEmpty(true)
-                else
-                    setmyArray(data)
-            });
+
+        setTimeout(() => {
+            fetch(BaseURL + "api/material/getMaterialByUser", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    setLoading(true)
+                    if (data.length === 0)
+                        setIsEmpty(true)
+                    else {
+                        setmyArray(data)
+                        
+                    }
+                });
+
+        }, 600);
+
     }, []);
 
 
@@ -90,12 +98,12 @@ export default function Inventory() {
 
     return (
         <>
-            <LoadingBar
+            {/* <LoadingBar
                 color="#FFB400"
                 height="3px"
                 progress={progress}
                 onLoaderFinished={() => setProgress(0)}
-            />
+            /> */}
             <div className="container-fluid p-0 position-relative ">
 
                 <div className="positive-relative">
@@ -195,7 +203,6 @@ export default function Inventory() {
                                                     Malzeme Ekle
                                                 </div>
                                             </div>
-
                                         </button>
                                     </div>
                                 </div>
@@ -204,20 +211,29 @@ export default function Inventory() {
                         </div>
 
                         <div className="d-flex justify-content-center ">
-                            <div className="d-flex flex-row flex-wrap justify-content-around">
-                                {myArray.filter(item => {
-                                    if (item.material_name.toLowerCase().includes(filterText))
-                                        return item
-                                }).map((index) =>
-                                    index.material_is_verified == 1 ? (
-                                        <ProductB
-                                            material_id={index.material_id}
-                                            key={index.material_id}
-                                            title={index.material_name}
-                                            unit={index.material_unit}
-                                        />
-                                    ) : null
-                                )}
+                            <div className={isEmpty ? "w-100" :"d-flex flex-row flex-wrap justify-content-around"}>
+                                {loading ?
+                                    myArray.filter(item => {
+                                        if (item.material_name.toLowerCase().includes(filterText))
+                                            return item
+                                    }).map((index) =>
+                                        index.material_is_verified == 1 ? (
+                                            <ProductB
+                                                material_id={index.material_id}
+                                                key={index.material_id}
+                                                title={index.material_name}
+                                                unit={index.material_unit}
+                                            />
+                                        ) : null
+                                    ) :
+                                    <ProductB
+                                        material_id="placeholder"
+                                        key="placeholder"
+                                        title="placeholder"
+                                        unit="placeholder"
+                                    />
+                                }
+
                                 {isEmpty &&
                                     <div className="text-center bg-warning p-3 mt-3 rounded-pill user-select-none font-weight-bold">
                                         "Görünüşe göre envanter boş. Malzeme eklemek için tuşa bas!"

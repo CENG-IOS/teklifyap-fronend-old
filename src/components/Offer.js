@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import BaseURL from '../api/BaseURL'
 import Buttons from "../components/Buttons/Buttons";
 import Modal from 'react-bootstrap/Modal';
+import Placeholder from 'react-bootstrap/Placeholder'
 
 export default function Offer(props) {
     const [isSmall, setIsSmall] = useState(false);
@@ -96,13 +97,37 @@ export default function Offer(props) {
                             : !Theme ? "d-flex flex-row bg-opacity-75 bg-danger text-white p-3 ps-sm-5 px-sm-4 rounded-pill mb-3" : "d-flex flex-row bg-opacity-50 bg-danger text-white p-3 ps-sm-5 px-sm-4 rounded-pill mb-3"
                     }
                 >
-                    <div className="d-flex align-items-center col-7">{props.title}</div>
-                    <div className="d-flex align-items-center col-2 ms-3">
-                        {props.date}
+                    <div className="d-flex align-items-center col-7">
+                        {props.title === "placeholder" ?
+                            <Placeholder as="p" animation="glow">
+                                <Placeholder style={{ width: 150 }} size="lg" />
+                            </Placeholder>
+                            :
+                            props.title}
                     </div>
+
+                    <div className="d-flex align-items-center col-2 ms-3">
+                        {props.date === "placeholder" ?
+                            <Placeholder as="p" animation="glow">
+                                <Placeholder style={{ width: 150 }} size="lg" />
+                            </Placeholder>
+                            :
+                            props.date
+                        }
+                    </div>
+
                     <div className={"d-flex justify-content-evenly col-3"}>
-                        <Buttons title="İncele" clicked={examineFunction} />
-                        <Buttons title="Ayarla" clicked={togglePopup} />
+                        {props.date === "placeholder" ?
+                            <>
+                                <Placeholder.Button xs={3} aria-hidden="true" />
+                                <Placeholder.Button xs={3} aria-hidden="true" />
+                            </>
+                            :
+                            <>
+                                <Buttons title="İncele" clicked={examineFunction} />
+                                <Buttons title="Ayarla" clicked={togglePopup} />
+                            </>
+                        }
                     </div>
                 </div>
             ) : (
@@ -113,11 +138,24 @@ export default function Offer(props) {
                             : !Theme ? "d-flex flex-row bg-opacity-75 bg-danger text-white p-3 ps-5 ps-sm-5 px-sm-4 rounded-pill mb-3" : "d-flex flex-row bg-opacity-50 bg-danger text-white p-3 ps-5 ps-sm-5 px-sm-4 rounded-pill mb-3"
                     }
                 >
-                    <div className="d-flex align-items-center col-7">{props.title}</div>
+                    <div className="d-flex align-items-center col-7">
+                        {props.title === "placeholder" ?
+                            <Placeholder as="p" animation="glow">
+                                <Placeholder style={{ width: 50 }} size="sm" />
+                            </Placeholder>
+                            :
+                            props.title}
+                    </div>
                     <div className={"d-flex flex-row d-flex justify-content-evenly col-5 ms-sm-3"}>
-                        <Buttons clicked={examineFunction} title="İncele" />
-                        <Buttons title="Ayarla" />
 
+                        {props.date === "placeholder" ?
+                            null
+                            :
+                            <>
+                                <Buttons title="İncele" clicked={examineFunction} />
+                                <Buttons title="Ayarla" clicked={togglePopup} />
+                            </>
+                        }
                     </div>
                 </div>
             )}

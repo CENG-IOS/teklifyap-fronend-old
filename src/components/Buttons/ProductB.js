@@ -5,7 +5,7 @@ import rightVector from "../../images/rightVector.svg";
 import { useSelector } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
 import BaseURL from "../../api/BaseURL"
-import Col from 'react-bootstrap/Col'
+import Placeholder from 'react-bootstrap/Placeholder'
 
 export default function ProductB(props) {
 
@@ -48,10 +48,15 @@ export default function ProductB(props) {
     return (
         <>
             <div className="m-3">
-                <div onClick={props.catcher} className="btn product-btn d-flex flex-column justify-content-around round" onClick={togglePopup}>
+                <div onClick={props.catcher} className="btn product-btn d-flex flex-column justify-content-around round" onClick={props.title === "placeholder" ? null:togglePopup}>
                     <div className="d-flex position-relative justify-content-center z-index-fixer">
                         <div className="position-absolute d-flex justify-content-center align-items-center h-100 product-text ">
-                            {props.title}
+                            {props.title === "placeholder" ?
+                                <Placeholder as="p" animation="glow">
+                                    <Placeholder xs={6} style={{width:150}} />
+                                </Placeholder>
+                                :
+                                props.title}
                         </div>
                         <img
                             src={rightVector}
@@ -67,7 +72,15 @@ export default function ProductB(props) {
                     </div>
 
                     <div className="w-100 mt-1 text-product">
-                        <span>ÖLÇÜ BİRİMİ: </span> <span>{props.unit} </span>
+                        <span>ÖLÇÜ BİRİMİ: </span>
+                        <span>
+                            {props.unit === "placeholder" ?
+                                <Placeholder as="p" animation="glow">
+                                    <Placeholder xs={12} size="lg" />
+                                </Placeholder>
+                                :
+                                props.unit}
+                        </span>
                     </div>
                 </div>
 
@@ -116,7 +129,6 @@ export default function ProductB(props) {
                 <Modal.Footer className="d-flex justify-content-evenly">
                     <button className="btn btn-success col-3" onClick={DeleteMaterial} >Evet</button>
                     <button className="btn btn-danger col-3" onClick={() => setIsSure(false)} >Hayır</button>
-
                 </Modal.Footer>
             </Modal>
 
