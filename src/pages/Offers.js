@@ -10,7 +10,7 @@ import Waves from "../components/Waves";
 export default function Offers() {
     const [offersInfo, setOffersInfo] = useState([]);
     const id = useSelector((state) => state.auth.userID);
-    const Theme = useSelector((state) => state.theme.theme);
+    // const Theme = useSelector((state) => state.theme.theme);
     const [examine, setExamine] = useState(false);
     const [tableData, setTableData] = useState([]);
     const [title, setTitle] = useState("");

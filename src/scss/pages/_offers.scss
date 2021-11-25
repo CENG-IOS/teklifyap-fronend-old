@@ -17,3 +17,11 @@
 .offers-section{
     margin-top: 160px;
 }
+
+@media screen and (min-width: 300px) and (max-width: 768px) {
+    
+    .small-content{
+        display: none;
+    }
+
+}

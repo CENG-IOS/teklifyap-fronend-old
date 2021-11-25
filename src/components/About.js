@@ -14,7 +14,7 @@ export const About = () => {
           <div className="row about-top position-relative d-flex justify-content-center align-items-center p-0 m-0 js-scroll">
             <div className="col-1"></div>
             
-            <div className="col-1 d-flex justify-content-center align-items-center ">
+            <div className="col-3 col-sm-3 col-md-1  d-flex justify-content-center align-items-center ">
               <img className="w-100" src={circles} alt='circles'></img>
             </div>
             
@@ -26,7 +26,7 @@ export const About = () => {
       <div className="row position-relative p-0 m-0 about-img">
         <div className="col-1"></div>
 
-        <div className="col-md-5 d-flex justify-content-center align-items-center ">
+        <div className="col-md-5 my-3 d-flex justify-content-center align-items-center ">
           <section className="scroll-container">
             <div className="js-scroll fade-in-bottom-left">
               <div className="position-relative d-flex justify-content-center align-items-center about-descp">
