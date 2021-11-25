@@ -904,19 +904,6 @@
   border-radius: 25px;
 }
 
-.card-makeoffer {
-  width: 235px;
-  height: 235px;
-}
-
-.round-corner-35 {
-  border-radius: 30px;
-}
-
-.font-weight-bold {
-  font-weight: bold;
-}
-
 .inputs {
   border-color: rgba(0, 0, 0, 0.4);
 }
@@ -976,6 +963,48 @@
 .tooltip-wrapper-text {
   color: #de4b38;
   font-family: "Roboto", sans-serif;
+}
+
+#home-slider .swiper-button-next {
+  background-image: url(/src/images/arrow-01.svg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+  color: #22b14c;
+  width: 6%;
+}
+
+#home-slider .swiper-button-prev {
+  background-image: url(/src/images/leftArrow-01.svg);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center;
+  color: #22b14c;
+  width: 6%;
+}
+
+#home-slider .swiper-button-prev::after {
+  display: none;
+}
+
+#home-slider .swiper-button-next::after {
+  display: none;
+}
+
+#home-slider .swiper-pagination-progressbar {
+  background-color: #22b14c;
+}
+
+#home-slider .swiper-pagination-progressbar-fill {
+  background-color: yellow;
+}
+
+#home-slider .swiper-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 /**layout**/
@@ -1906,6 +1935,10 @@
 
 .navindex {
   z-index: 2;
+}
+
+.bg-light-custom {
+  background-color: #bebaba;
 }
 
 .not-found-logo {
