@@ -14,6 +14,7 @@ export default function Offers() {
     const [tableData, setTableData] = useState([]);
     const [title, setTitle] = useState("");
     const [date, setDate] = useState("");
+    const [isEmpty, setIsEmpty] = useState(false);
     const toggleExamine = () => {
         setExamine(!examine)
     }
@@ -38,7 +39,10 @@ export default function Offers() {
         })
             .then((response) => response.json())
             .then((data) => {
-                setOffersInfo(data.data)
+                if (data.data.length === 0)
+                    setIsEmpty(true)
+                else
+                    setOffersInfo(data.data)
             });
     }, []);
 
@@ -65,6 +69,11 @@ export default function Offers() {
                             status={item.offer_status}
                         />
                     )}
+                    {isEmpty &&
+                        <div className="text-center bg-warning p-3 rounded-pill user-select-none font-weight-bold">
+                            Görünüşe göre gösterilecek bir teklifiniz yok. Teklif yapmak için sağ üstteki tuşa basınız!
+                        </div>
+                    }
 
                 </div>
             </div>

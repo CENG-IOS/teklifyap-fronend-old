@@ -20,7 +20,6 @@ const Profile = () => {
         setIsOpen(!isOpen);
     }
     const handleClose = () => {
-        // setError(!dataError)
         setIsOpen2(false)
         setTimeout(() => {
             setSuccess(!dataSuccess)
@@ -95,7 +94,7 @@ const Profile = () => {
 
             <div className="container position-relative ">
                 <div className="d-flex justify-content-center ">
-                    <div className={!Theme ? "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary text-white round-corner" : "profile-wrapper mt-3 mb-4 p-5 pt-4  bg-light text-dark round-corner"}>
+                    <div className={!Theme ? "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary text-white round" : "profile-wrapper mt-3 mb-4 p-5 pt-4  bg-light text-dark round"}>
                         <div className="user-select-none text-center mt-3 h2">{info.user_name + ' ' + info.user_surname}</div>
 
                         <div className="d-flex justify-content-center mt-3">

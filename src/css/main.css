@@ -525,7 +525,7 @@
   z-index: -1;
   border-top-color: white;
   opacity: 1;
-  border-color: #FFB400;
+  border-bottom: yellow;
   border-width: 0.1px;
   margin-top: 5%;
   border-radius: 14px;

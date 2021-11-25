@@ -16,6 +16,8 @@ export default function Inventory() {
     const [res, setRes] = useState({});
     const [isOpen, setIsopen] = useState(false);
     const id = useSelector((state) => state.auth.userID);
+    const [isEmpty, setIsEmpty] = useState(false);
+
     let values = {
         user_id: id,
     };
@@ -40,7 +42,10 @@ export default function Inventory() {
         })
             .then((response) => response.json())
             .then((data) => {
-                setmyArray(data)
+                if (data.length === 0)
+                    setIsEmpty(true)
+                else
+                    setmyArray(data)
             });
     }, []);
 
@@ -173,12 +178,6 @@ export default function Inventory() {
                                         <div className="col-11">
                                             <input className="form-control" onChange={filterHandler} id="filtre" name="filtre" type="text" />
                                         </div>
-
-                                        {/*<div className="col-2">
-                                            <div className="d-flex justify-content-end">
-                                                <button className="btn btn-primary" > <i className="bi bi-search"></i> </button>
-                                            </div>
-                        </div>*/}
                                     </div>
                                 </div>
 
@@ -216,6 +215,11 @@ export default function Inventory() {
                                         />
                                     ) : null
                                 )}
+                                {isEmpty &&
+                                    <div className="text-center bg-warning p-3 mt-3 rounded-pill user-select-none font-weight-bold">
+                                        "Görünüşe göre envanter boş. Malzeme eklemek için tuşa bas!"
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

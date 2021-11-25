@@ -2,14 +2,13 @@
     z-index: -1;
     border-top-color: white;
     opacity: 1;
-    border-color: $yellow;
+    border-bottom: yellow;
     border-width: 0.1px;
     margin-top: 5%;
     border-radius: 14px;
     width: 210px;
     height: 250px;
     transition: border-width 0.6s linear;
-    // background: linear-gradient(to bottom, #ffffff 58%, #ffb400 100%);
     background: rgb(255, 180, 0);
     background: -moz-linear-gradient(
         0deg,

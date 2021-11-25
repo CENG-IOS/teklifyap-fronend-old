@@ -16,8 +16,9 @@ export default function Offer(props) {
     };
 
     const positiveHandler = (e) => {
+        e.preventDefault()
         let status = "true"
-        fetch(BaseURL + `api/offer/updateStatus/${props.id}/${status}`, {
+        fetch(BaseURL + `api/offer/updateStatus/${props.offer_id}/${status}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -29,8 +30,9 @@ export default function Offer(props) {
     };
 
     const negatiffHandler = (e) => {
+        e.preventDefault()
         let status = "false"
-        fetch(BaseURL + `api/offer/updateStatus/${props.id}/${status}`, {
+        fetch(BaseURL + `api/offer/updateStatus/${props.offer_id}/${status}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -115,6 +117,7 @@ export default function Offer(props) {
                     <div className={"d-flex flex-row d-flex justify-content-evenly col-5 ms-sm-3"}>
                         <Buttons clicked={examineFunction} title="İncele" />
                         <Buttons title="Ayarla" />
+
                     </div>
                 </div>
             )}
@@ -127,28 +130,26 @@ export default function Offer(props) {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <form>
-                        <div className="d-flex flex-column justify-content-center text-product">
-                            <button
-                                className="btn btn-success"
-                                onClick={positiveHandler}
-                            >
-                                Teklifi olumlu yap
-                            </button>
-                            <button
-                                className="btn btn-success mt-2"
-                                onClick={negatiffHandler}
-                            >
-                                Teklifi olumsuz yap
-                            </button>
-                            <button
-                                className="btn btn-danger mt-2"
-                                onClick={() => alert("silindi")}
-                            >
-                                Sil
-                            </button>
-                        </div>
-                    </form>
+                    <div className="d-flex flex-column justify-content-center text-product">
+                        <button
+                            className="btn btn-success"
+                            onClick={positiveHandler}
+                        >
+                            Teklifi olumlu yap
+                        </button>
+                        <button
+                            className="btn btn-success mt-2"
+                            onClick={negatiffHandler}
+                        >
+                            Teklifi olumsuz yap
+                        </button>
+                        <button
+                            className="btn btn-danger mt-2"
+                            onClick={() => alert("silindi")}
+                        >
+                            Sil
+                        </button>
+                    </div>
                 </Modal.Body>
             </Modal>
 

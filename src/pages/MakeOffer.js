@@ -308,7 +308,7 @@ export default function MakeOffer(props) {
                             <button className="btn btn-primary slide-btn p-0" onClick={(e) => prevSlide(e)}> <i className="bi bi-arrow-up" style={{ fontSize: 1.3 + 'rem' }}></i> </button>
                         </div>
 
-                        <table className="table table-bordered">
+                        <table className="table table-bordered table-light round">
                             <thead>
                                 <tr>
                                     <th className="text-center">#</th>
@@ -358,7 +358,7 @@ export default function MakeOffer(props) {
                             <button className="btn btn-primary slide-btn p-0" onClick={(e) => prevSlide(e)}> <i className="bi bi-arrow-up" style={{ fontSize: 1.3 + 'rem' }}></i> </button>
                         </div>
 
-                        <table className="table table-bordered">
+                        <table className="table table-bordered table-light round">
                             <thead>
                                 <tr>
                                     <th className="text-center">#</th>

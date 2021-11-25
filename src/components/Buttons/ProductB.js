@@ -43,7 +43,7 @@ export default function ProductB(props) {
     return (
         <>
             <div className="m-3">
-                <button onClick={props.catcher} className="btn product-btn d-flex flex-column justify-content-around" onClick={togglePopup}>
+                <div onClick={props.catcher} className="btn product-btn d-flex flex-column justify-content-around round" onClick={togglePopup}>
                     <div className="d-flex position-relative justify-content-center z-index-fixer">
                         <div className="position-absolute d-flex justify-content-center align-items-center h-100 product-text ">
                             {props.title}
@@ -63,11 +63,8 @@ export default function ProductB(props) {
 
                     <div className="w-100 mt-1 text-product">
                         <span>ÖLÇÜ BİRİMİ: </span> <span>{props.unit} </span>
-                        {//<br />
-                            //<span>BİRİM FİYATI: </span> <span>{props.unit_per_price} </span>
-                        }
                     </div>
-                </button>
+                </div>
 
             </div>
 
