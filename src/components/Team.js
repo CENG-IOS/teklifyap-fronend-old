@@ -6,7 +6,11 @@ import role from "../images/roles.png";
 import oe from "../images/oe.png";
 import ic from "../images/ic.png";
 import se from "../images/se.png";
-
+import reactLOGO from "../images/react-logo.png";
+import springBootLOGO from "../images/spring-boot.png";
+import erDiagramLOGO from "../images/spring-boot.png";
+import databseLOGO from "../images/spring-boot.png";
+import mysqlLOGOfrom from "../images/Mysql_logo.png";
 export const Team = () => {
   return (
     <div className="container-fluid p-0 m-0 position-relative">
@@ -34,6 +38,8 @@ export const Team = () => {
                 <div className="role-descp position-absolute">FULL STACK</div>
                 <img className="roles" src={role} alt='role'></img>
               </div>
+              <div><img src={reactLOGO} className='w-100'></img></div>
+              <div><img src={springBootLOGO} className='w-100'></img></div>
             </div>
           </section>
             </div>
@@ -54,6 +60,8 @@ export const Team = () => {
                 <div className="role-descp position-absolute">FULL STACK</div>
                 <img className="roles" src={role} alt='role'></img>
               </div>
+              <div><img src={reactLOGO} className='w-100'></img></div>
+              <div><img src={springBootLOGO} className='w-100'></img></div>
             </div>
           </section>
             </div>
@@ -74,6 +82,7 @@ export const Team = () => {
                 <div className="role-descp position-absolute">BACKEND</div>
                 <img className="roles" src={role} alt='role'></img>
               </div>
+              <div><img src={mysqlLOGOfrom} className='w-100'></img></div>
             </div>
           </section>
             </div>
