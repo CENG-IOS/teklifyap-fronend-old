@@ -12,9 +12,7 @@
   height: 14vw;
 }
 
-.lines {
-  color: #909097;
-}
+
 
 .about-descp {
   color: $yellow;
@@ -41,4 +39,9 @@
   100% {
     opacity: 1;
   }
+}
+
+.about-lines{
+  background-color: #909097;
+  opacity: 1;
 }

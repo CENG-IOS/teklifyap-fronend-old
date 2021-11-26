@@ -1041,10 +1041,6 @@
   height: 14vw;
 }
 
-.lines {
-  color: #909097;
-}
-
 .about-descp {
   color: #FFB400;
   font-family: "Open Sans", sans-serif;
@@ -1080,6 +1076,11 @@
   100% {
     opacity: 1;
   }
+}
+
+.about-lines {
+  background-color: #909097;
+  opacity: 1;
 }
 
 .footer-bg {

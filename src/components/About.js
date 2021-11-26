@@ -12,13 +12,13 @@ export const About = () => {
       <section className="scroll-container">
         <div className="js-scroll fade-in-bottom">
           <div className="row about-top position-relative d-flex justify-content-center align-items-center p-0 m-0 js-scroll">
-            <div className="col-1"></div>
+            <div className="col-3"><hr className='w-100 about-lines'></hr></div>
             
             <div className="col-3 col-sm-3 col-md-1  d-flex justify-content-center align-items-center ">
               <img className="w-100" src={circles} alt='circles'></img>
             </div>
             
-            <div className="col-1"></div>
+            <div className="col-3"><hr className='w-100 about-lines'></hr></div>
           </div>
         </div>
       </section>
