@@ -119,14 +119,14 @@ const Profile = () => {
                         <div className="d-flex flex-row mt-3 mb-3">
                             <div className="d-flex justify-content-center flex-column col-3 ms-5">
                                 <label
-                                    className="profile-info profile-info-label text-white"
+                                    className="profile-info profile-info-label"
                                     htmlFor="remember"
                                 >
                                     Email:
                                 </label>
 
                                 <label
-                                    className="profile-info profile-info-label text-white"
+                                    className="profile-info profile-info-label"
                                     htmlFor="remember"
                                 >
                                     Şifre:

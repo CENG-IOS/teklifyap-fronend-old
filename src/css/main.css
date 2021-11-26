@@ -1881,6 +1881,10 @@
   z-index: 2;
 }
 
+.bg-light-custom {
+  background-color: #bebaba;
+}
+
 .not-found-logo {
   width: 455px;
   margin-top: 55px;
@@ -2105,3 +2109,4 @@
 .secondLine-off-default-theme {
   background-color: black;
 }
+/*# sourceMappingURL=main.css.map */
