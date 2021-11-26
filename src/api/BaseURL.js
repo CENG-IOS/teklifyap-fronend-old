@@ -1,4 +1,4 @@
-const url = "http://localhost:8080/"
+const url = "https://teklifyap-backend.herokuapp.com/"
 export default url;
 //https://teklifyap-backend.herokuapp.com/
 //http://localhost:8080/
