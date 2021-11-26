@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
 import BaseURL from '../api/BaseURL'
 import Placeholder from 'react-bootstrap/Placeholder'
+import Avatar from '@mui/material/Avatar';
 
 const Profile = () => {
     const [info, setInfo] = useState({});
@@ -13,6 +14,8 @@ const Profile = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [firstLetters, setFirstLettters] = useState("");
+    const [rndColor, setRndColor] = useState("");
 
     let values = {
         user_id: id,
@@ -78,9 +81,10 @@ const Profile = () => {
     }
 
     useEffect(() => {
+        const colors = ["#6664A3", "#ED9CBF", "#9B7FC0", "#FFD9D6", "#F1BD80"]
+        setRndColor(colors[Math.floor(Math.random() * colors.length)])
         fetch(BaseURL + `api/user/userProfile`, {
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json",
             },
@@ -89,6 +93,7 @@ const Profile = () => {
             .then((response) => response.json())
             .then((data) => {
                 setInfo(data.data)
+                setFirstLettters(data.data.user_name.charAt(0) + data.data.user_surname.charAt(0))
                 setLoading(true)
             });
     }, [])
@@ -100,20 +105,32 @@ const Profile = () => {
             <div className="container position-relative ">
                 <div className="d-flex justify-content-center ">
                     <div className={!Theme ?
-                        loading ? "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary text-white round" : "col-11 col-sm-5 col-md-4 mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary round"
+                        loading ? "profile-wrapper mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary text-white round" : "col-11 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-4 mt-3 mb-4 p-5 pt-4 bg-opacity-75 bg-secondary round"
                         :
-                        loading ? "profile-wrapper mt-3 mb-4 p-5 pt-4  bg-light text-dark round" : "col-11 col-sm-5 col-md-4 mt-3 mb-4 p-5 pt-4 bg-light text-dark round"
+                        loading ? "profile-wrapper mt-3 mb-4 p-5 pt-4  bg-light text-dark round" : "col-11 col-sm-10 col-md-7 col-lg-6 col-xl-5 col-xxl-4 mt-3 mb-4 p-5 pt-4 bg-light text-dark round"
                     }>
                         {loading ?
-                            <div className="user-select-none text-center mt-3 h2">{info.user_name + ' ' + info.user_surname}</div>
+                            <div className="user-select-none text-center mt-3 h2 m-0">{info.user_name + ' ' + info.user_surname}</div>
                             :
-                            <Placeholder as="p" animation="glow">
-                                <Placeholder xs={12} size="lg" />
-                            </Placeholder>
+                            <div className="user-select-none text-center mt-3 h2 m-0">
+                                <Placeholder as="p" animation="glow">
+                                    <Placeholder xs={12} size="lg" />
+                                </Placeholder>
+                            </div>
                         }
 
-                        <div className="d-flex justify-content-center mt-3">
-                            <div className="profile-circle"></div>
+                        <div className="d-flex justify-content-center my-4">
+                            <Avatar sx={{ backgroundColor: rndColor, width: 140, height: 140 }}>
+                                <div className="h1 m-0">
+                                    {loading ?
+                                        firstLetters
+                                        :
+                                        <Placeholder style={{ width: "30px" }} as="div" animation="glow">
+                                            <Placeholder xs={12} />
+                                        </Placeholder>
+                                    }
+                                </div>
+                            </Avatar>
                         </div>
 
                         <div className="d-flex flex-row mt-3 mb-3">
@@ -140,12 +157,17 @@ const Profile = () => {
                                         <div className="d-inline profile-info">*********</div>
                                     </> :
                                     <>
-                                        <Placeholder as="p" animation="glow">
-                                            <Placeholder xs={12} size="lg" />
-                                        </Placeholder>
-                                        <Placeholder as="p" animation="glow">
-                                            <Placeholder xs={12} size="lg" />
-                                        </Placeholder>
+                                        <div className="d-inline profile-info">
+                                            <Placeholder as="p" animation="glow">
+                                                <Placeholder xs={12} size="lg" />
+                                            </Placeholder>
+                                        </div>
+
+                                        <div className="d-inline profile-info">
+                                            <Placeholder as="p" animation="glow">
+                                                <Placeholder xs={12} size="lg" />
+                                            </Placeholder>
+                                        </div>
                                     </>
                                 }
                             </div>
@@ -154,14 +176,24 @@ const Profile = () => {
                         {loading ?
                             <div className="d-inline profile-info ">Kullanıcı <b>{dateConverter().year}</b>  yılının <b>{dateConverter().month.toLowerCase()}</b> ayında kaydoldu.</div>
                             :
-                            <Placeholder as="p" animation="glow">
-                                <Placeholder xs={12} size="lg" />
-                            </Placeholder>
+                            <div className="d-inline profile-info ">
+                                <Placeholder as="p" animation="glow">
+                                    <Placeholder xs={12} size="lg" />
+                                </Placeholder>
+                            </div>
+
                         }
 
-                        <div className="d-flex justify-content-end p-0 mt-5">
-                            <Buttons clicked={togglePopup} title="Bilgilerimi Düzenle"></Buttons>
-                        </div>
+                        {loading ?
+                            <div className="d-flex justify-content-end p-0 mt-4">
+                                <Buttons clicked={togglePopup} title="Bilgilerimi Düzenle"></Buttons>
+                            </div>
+                            :
+                            <div className="d-flex justify-content-end p-0 mt-4">
+                                <Placeholder.Button xs={6} aria-hidden="true" bg="warning"/>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </div>

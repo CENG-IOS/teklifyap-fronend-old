@@ -2,14 +2,14 @@ import React, { useState, useEffect, useMemo } from "react";
 import background from "../images/bg.jpg";
 import Input from "../components/Inputs/Input";
 import Buttons from "../components/Buttons/Buttons";
-import useHttp from "../api/useHttp";
 import { useHistory } from "react-router-dom";
 import warnIng from "../images/warning.svg";
-import LoadingBar from "react-top-loading-bar";
 import { useSelector } from "react-redux";
 import ToolTip from "../components/Inputs/ToolTip";
 import Modal from 'react-bootstrap/Modal';
 import BaseURL from '../api/BaseURL'
+import FakeLoader from "../components/FakeLoader";
+import CommonMaterials from "../components/CommonMaterials";
 
 const Register = (props) => {
     const [name, setName] = useState("");
@@ -18,14 +18,10 @@ const Register = (props) => {
     const [password, setPassword] = useState("");
     const [passwordAgain, setPasswordAgain] = useState("");
     const [warningPop, setWarningPop] = useState(false);
-
     const [warning, setWarning] = useState([]);
-    const [deneme, setDeneme] = useState(false);
     const [myArray, setmyArray] = useState(null);
-
     let history = useHistory();
     const Theme = useSelector((state) => state.theme.theme);
-    const { isLoading, error, sendRequest: sendValues } = useHttp();
 
     /*****************************************************************************/
 
@@ -59,6 +55,7 @@ const Register = (props) => {
         let nameController = /^[a-zA-ZğüşöçİĞÜŞÖÇ1234567890]+$/.test(name);
         let surnameController = /^[a-zA-ZğüşöçİĞÜŞÖÇ1234567890]+$/.test(surname);
         let reg = /^\d+$/.test(password);
+
         const values = {
             user_name: name,
             user_surname: surname,
@@ -66,6 +63,7 @@ const Register = (props) => {
             user_password: password,
             user_creation_date: today,
         };
+
         if (password != passwordAgain) {
             setWarning((oldArray) => [...oldArray, "Şifreler uyuşmuyor."]);
             return;
@@ -97,22 +95,49 @@ const Register = (props) => {
             body: JSON.stringify(values),
         })
             .then((response) => response.json())
-            .then((data) => setmyArray(data));
+            .then((data) => {
+                if (!data.success) {
+                    setWarning((oldArray) => [
+                        ...oldArray,
+                        data.message,
+                    ]);
+                    setWarningPop(false)
+                } else {
+
+                    let materials = new Array();
+                    CommonMaterials.map((item) => {
+                        materials.push({
+                            ...item,
+                            user: {
+                                user_id: data.data
+                            }
+                        })
+                    })
+
+                    fetch(BaseURL + "api/material/adds", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(materials)
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.success) {
+                                history.push("/Login")
+                            }
+                            else {
+                                setWarning((oldArray) => [
+                                    ...oldArray,
+                                    "Beklenmedik bir hata meydana geldi.",
+                                ]);
+                                setWarningPop(false)
+                            }
+                        });
+                }
+            });
     };
 
-    useEffect(() => {
-        if (myArray != null) {
-            setWarning([]);
-            if (!myArray.success) {
-                setWarning((oldArray) => [
-                    ...oldArray,
-                    "Girilen email başka bir kullanıcı tarafından alınmış.",
-                ]);
-            } else {
-                history.push("/Login");
-            }
-        }
-    }, [myArray]);
 
     return (
         <React.Fragment>
@@ -265,13 +290,24 @@ const Register = (props) => {
                     <Modal.Title className="user-select-none">Kayıt yapılırken bekleyin!</Modal.Title>
                 </Modal.Header>
 
-                <Modal.Body className="user-select-none">
-                    Sabrınız için teşekkür ederiz.
+                <Modal.Body className="d-flex justify-content-center">
+
+                    <FakeLoader loadingText="Malzemeler oluşturuluyor">
+                        <FakeLoader loadingText="Teklifler oluşturuluyor">
+                            <FakeLoader loadingText="Sizin için hazır hale getiriyoruz">
+                                <FakeLoader loadingText="Son birkaç adım daha...">
+                                    <h3>Yüklendi!</h3>
+                                </FakeLoader>
+                            </FakeLoader>
+                        </FakeLoader>
+                    </FakeLoader>
+
                 </Modal.Body>
             </Modal>
         </React.Fragment>
 
 
     );
-};
+
+}
 export default Register;

@@ -262,15 +262,10 @@ export default function MakeOffer(props) {
                         </div>
 
                         <div className="mb-3 text-product row">
-                            <label className="col-lg-3 col-form-label" htmlFor="profit-rate">KAR ORANI:</label>
-                            <div className="col-lg-9">
+                            <label className="col-4 col-lg-3 col-form-label" htmlFor="profit-rate">KAR ORANI:</label>
+                            <div className="col-8 col-lg-9">
                                 <input className="form-control" placeholder="Örnek: 20" type="number" defaultValue="0" min="0" id="profit-rate" name="profit-rate" />
                             </div>
-                        </div>
-
-                        <div className="mb-3 form-check">
-                            <input className="form-check-input" type="checkbox" id="show-profit-rate" name="show-profit-rate" />
-                            <label className="form-check-label" htmlFor="show-profit-rate">Kar oranı teklifte görünsün.</label>
                         </div>
 
                         <div className="mb-3 form-check">

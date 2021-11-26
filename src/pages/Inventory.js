@@ -116,7 +116,7 @@ export default function Inventory() {
 
                                 <div className="col-2 add-product">
                                     <div className="d-flex justify-content-center align-items-center">
-                                        <label className="col-form-label user-select-none" htmlFor="filtre">FİLTRE :</label>
+                                        <label className="col-form-label user-select-none fw-bold" htmlFor="filtre">FİLTRE :</label>
                                     </div>
                                 </div>
 

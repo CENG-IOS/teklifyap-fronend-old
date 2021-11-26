@@ -10,7 +10,7 @@ import warnIng from "../images/warning.svg";
 import ToolTip from "../components/Inputs/ToolTip";
 import Modal from 'react-bootstrap/Modal'
 import BaseURL from '../api/BaseURL'
-import Spinner from 'react-bootstrap/Spinner'
+import FakeLoader from "../components/FakeLoader";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -196,11 +196,21 @@ const Login = () => {
 
             <Modal show={warning} centered backdrop="static" size="sm">
                 <Modal.Header className="bg-opacity-75 bg-warning">
-                    <Modal.Title className="user-select-none">Giriş Yapılırken bekleyin!</Modal.Title>
+                    <Modal.Title className="user-select-none">
+                    Giriş yapılırken bekleyin!
+                    </Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body className="d-flex justify-content-center">
-                    <Spinner animation="grow" />
+                    <FakeLoader loadingText="Malzemeler getiriliyor">
+                        <FakeLoader loadingText="Teklifler getiriliyor">
+                            <FakeLoader loadingText="Sizin için hazır hale getiriyoruz">
+                                <FakeLoader loadingText="Son birkaç adım daha...">
+                                    <h3>Yüklendi!</h3>
+                                </FakeLoader>
+                            </FakeLoader>
+                        </FakeLoader>
+                    </FakeLoader>
                 </Modal.Body>
             </Modal>
         </React.Fragment>
