@@ -15,7 +15,7 @@ export const Team = () => {
   return (
     <div className="container-fluid p-0 m-0 position-relative">
       <img className="team" src={team} alt='team'></img>
-      <div className="position-relative team-descp flex-wrap">
+      <div className="position-relative team-descp flex-wrap pb-5">
         <img className="team-descp-img" src={teamdescp} alt='team-descp-img'></img>
     
         <div className="container-fluid d-flex justify-content-center small-bg ">

@@ -10,7 +10,7 @@ export default class Footer extends Component {
       <div className="container-fluid p-0 m-0 position-relative">
         <img className="footer-bg" src={footer} alt="footer-bg"></img>
 
-        <div className="square position-relative "></div>
+        <div className="square position-relative"></div>
 
         <div className="row position-relative p-0 m-0">
           <div className="col-2"></div>

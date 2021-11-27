@@ -9,7 +9,7 @@ export const Vision = () => {
       <img className="vision-img" src={vision} alt="vision-img"></img>
       <div className="square3 position-relative "></div>
 
-      <div className="position-relative p-0 m-0 about-img ">
+      <div className="position-relative p-0 m-0 about-img pb-5 ">
         <div className="container d-flex justify-content-center align-items-center">
           <section className="scroll-container">
             <div className="js-scroll fade-in-bottom">

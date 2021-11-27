@@ -29,7 +29,7 @@ export default function Home() {
                     <Vision />
                 </div>
             </div>
-            <div className="bg-light-custom">
+            <div className="bg-light-custom pt-5">
                 <Footer />
             </div>
         </>

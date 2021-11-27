@@ -27,7 +27,7 @@ export const About = () => {
         </div>
       </section>
 
-      <div className="row position-relative p-0 m-0 about-img">
+      <div className="row position-relative p-0 m-0 about-img pb-5">
         <div className="col-1"></div>
 
         <div className="col-md-5 my-3 d-flex justify-content-center align-items-center ">
