@@ -28,6 +28,7 @@ export default function MakeOffer(props) {
     const [selectedUserName, setSelectedUserName] = useState()
     const [selectedRowID, setSelectedRowID] = useState(-1)
     const [selectedMaterials, setSelectedMaterials] = useState([])
+    const [selectedRow, setSelectedRow] = useState()
     const [warning, setWarning] = useState(false)
     const [totalPrice, setTotalPrice] = useState(0)
     const [kdvPrice, setKDVPrice] = useState(0)
@@ -102,6 +103,8 @@ export default function MakeOffer(props) {
     function updateTable() {
         realData[selectedRowID].material_price_per_unit = document.getElementById("price_per_unit").value
         realData[selectedRowID].material_unit_quantity = document.getElementById("unit_quantity").value
+
+        document.getElementsByClassName("checkboxs")[selectedRowID].checked = true
         setBtnEdit(false)
     }
 
@@ -344,6 +347,7 @@ export default function MakeOffer(props) {
                                                 <button className={e.is_fixed ? "btn btn-success disabled" : "btn btn-success"} onClick={(e) => {
                                                     e.preventDefault()
                                                     setSelectedRowID(i)
+                                                    setSelectedRow(e.target)
                                                     setBtnEdit(true)
                                                 }} ><i className="bi bi-pencil-square"></i></button>
                                             </div>
@@ -400,17 +404,17 @@ export default function MakeOffer(props) {
                         </table>
 
                         <Row>
-                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{span: 3, offset: 6}} ><b>Toplam : </b></Col>
+                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }} ><b>Toplam : </b></Col>
                             <Col xs={{ span: 5, offset: 0 }} md={3} >{totalPrice}</Col>
                         </Row>
 
                         <Row>
-                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{span: 3, offset: 6}}><b>KDV Tutarı : </b></Col>
+                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }}><b>KDV Tutarı : </b></Col>
                             <Col xs={{ span: 5, offset: 0 }} md={3}>{kdvPrice}</Col>
                         </Row>
 
                         <Row>
-                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{span: 3, offset: 6}}><b>GENEL TOPLAM :</b></Col>
+                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }}><b>GENEL TOPLAM :</b></Col>
                             <Col xs={{ span: 5, offset: 0 }} md={3}>{kdvPrice + totalPrice} <small><small><i>+ SGK stopaj bedeli</i></small></small> </Col>
                         </Row>
 
@@ -457,6 +461,7 @@ export default function MakeOffer(props) {
                             </Col>
                         </Row>
                         <br />
+                        {console.log(selectedRowID)}
                         <Row>
                             <Col md={4}>
                                 <label className="col-form-label" htmlFor="unit_quantity">Birim Miktarı :</label>
