@@ -91,6 +91,7 @@ export default function MakeOffer(props) {
                         material_unit: data[i].material_unit,
                         material_price_per_unit: 0,
                         material_unit_quantity: 0,
+                        is_fixed: data[i].is_fixed
                     })
                 }
                 setRealData(temp)
@@ -163,34 +164,37 @@ export default function MakeOffer(props) {
             const selectedMaterials = []
             for (let i = 0; i < checked.length; i++) {
                 const element = checked[i];
-                if (element.parentElement.nextElementSibling.nextElementSibling.textContent == 0 ||
-                    element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent == 0) {
-                    setErrorSlide3(true)
-                    return false
+                console.log();
+                if (element.parentElement.nextElementSibling.textContent !== "SGK stopaj bedeli") {
+                    if (element.parentElement.nextElementSibling.nextElementSibling.textContent == 0 ||
+                        element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent == 0) {
+                        setErrorSlide3(true)
+                        return false
+                    }
+                    selectedMaterials.push({
+                        material: {
+                            material_id: element.parentElement.parentElement.id,
+                            material_name: element.parentElement.nextElementSibling.textContent,
+                            material_is_verified: 1,
+                            material_unit: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.textContent
+                        },
+                        offer: {
+                            offer_id: "-1"
+                        },
+                        offer_material_price_per_unit: element.parentElement.nextElementSibling.nextElementSibling.textContent.trim(),
+                        offer_material_unit_quantity: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim(),
+                        offer_material_cost: Math.floor(~~(element.parentElement.nextElementSibling.nextElementSibling.textContent.trim()) * ~~(element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim()) * ((~~(selectedProfitRate) + 100) / 100))
+                    })
                 }
-                selectedMaterials.push({
-                    material: {
-                        material_id: element.parentElement.parentElement.id,
-                        material_name: element.parentElement.nextElementSibling.textContent,
-                        material_is_verified: 1,
-                        material_unit: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.textContent
-                    },
-                    offer: {
-                        offer_id: "-1"
-                    },
-                    offer_material_price_per_unit: element.parentElement.nextElementSibling.nextElementSibling.textContent.trim(),
-                    offer_material_unit_quantity: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim(),
-                    offer_material_cost: Math.floor(~~(element.parentElement.nextElementSibling.nextElementSibling.textContent.trim()) * ~~(element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim()) * ((~~(selectedProfitRate) + 100) / 100))
-                })
             }
             let temp = 0
             selectedMaterials.forEach(item => {
                 temp += item.offer_material_cost
             })
-            console.log("total price:");
-            console.log(temp);
-            console.log("kdv");
-            console.log(((temp * 18) / 100));
+            if (temp === 0) {
+                setErrorSlide2(true)
+                return false
+            }
             setKDVPrice(((temp * 18) / 100))
             setTotalPrice(temp)
             setSelectedMaterials(selectedMaterials)
@@ -315,8 +319,8 @@ export default function MakeOffer(props) {
                             <button className="btn btn-primary slide-btn p-0" onClick={(e) => prevSlide(e)}> <i className="bi bi-arrow-up" style={{ fontSize: 1.3 + 'rem' }}></i> </button>
                         </div>
 
-                        <table className="table table-bordered table-light round">
-                            <thead>
+                        <table className="table table-bordered table-light round table-striped">
+                            <thead className="table-dark">
                                 <tr>
                                     <th className="text-center">#</th>
                                     <th>Malzemenin İsmi</th>
@@ -327,16 +331,17 @@ export default function MakeOffer(props) {
                                 </tr>
                             </thead>
                             <tbody id="tableRows">
+                                {console.log(realData)}
                                 {realData.map((e, i) =>
-                                    <tr key={e.material_id} id={e.material_id} >
-                                        <td className="text-center"> <input className="form-check-input checkboxs" type="checkbox" /> </td>
+                                    <tr key={e.material_id} id={e.material_id} className={e.is_fixed ? "table-warning" : ""} >
+                                        <td className="text-center"> <input className="form-check-input checkboxs" type="checkbox" defaultChecked={e.is_fixed} onClick={(event) => e.is_fixed ? event.target.checked = true : null} /> </td>
                                         <td>{e.material_name}</td>
-                                        <td>{e.material_price_per_unit} </td>
-                                        <td>{e.material_unit}</td>
-                                        <td>{e.material_unit_quantity} </td>
+                                        <td>{e.is_fixed ? "" : e.material_price_per_unit} </td>
+                                        <td>{e.is_fixed ? "" : e.material_unit}</td>
+                                        <td>{e.is_fixed ? "" : e.material_unit_quantity} </td>
                                         <td>
                                             <div className="d-flex justify-content-center">
-                                                <button className="btn btn-success" onClick={(e) => {
+                                                <button className={e.is_fixed ? "btn btn-success disabled" : "btn btn-success"} onClick={(e) => {
                                                     e.preventDefault()
                                                     setSelectedRowID(i)
                                                     setBtnEdit(true)
@@ -365,26 +370,26 @@ export default function MakeOffer(props) {
                             <button className="btn btn-primary slide-btn p-0" onClick={(e) => prevSlide(e)}> <i className="bi bi-arrow-up" style={{ fontSize: 1.3 + 'rem' }}></i> </button>
                         </div>
 
-                        <table className="table table-bordered table-light round">
+                        <table className="table table-bordered table-light round mb-4">
                             <thead>
                                 <tr>
                                     <th className="text-center">#</th>
                                     <th>Malzemenin İsmi</th>
                                     <th>Birim Fiyatı</th>
-                                    <th>Ölçü Birimi</th>
+                                    <th className="d-none d-sm-block">Ölçü Birimi</th>
                                     <th>Birim Miktarı</th>
                                     <th>Kar Oranı</th>
                                     <th>Toplam Malzeme Tutarı</th>
                                 </tr>
                             </thead>
                             <tbody id="tableRows">
-                                {console.log(selectedMaterials)}
+                                {/* {console.log(selectedMaterials)} */}
                                 {selectedMaterials.map((e, i) =>
                                     <tr key={i} >
                                         <td>{i + 1}</td>
                                         <td>{e.material.material_name}</td>
                                         <td>{e.offer_material_price_per_unit} </td>
-                                        <td>{e.material.material_unit}</td>
+                                        <td className="d-none d-sm-block">{e.material.material_unit}</td>
                                         <td>{e.offer_material_unit_quantity} </td>
                                         <td>{selectedProfitRate} </td>
                                         <td>{e.offer_material_cost}</td>
@@ -394,15 +399,22 @@ export default function MakeOffer(props) {
                             </tbody>
                         </table>
 
-                        <div className="d-flex justify-content-end">
-                            <div className="d-flex flex-column">
-                                <div>Toplam : {totalPrice} </div>
-                                <div>KDV Tutarı : {kdvPrice} </div>
-                                <div>GENEL TOPLAM : {kdvPrice + totalPrice} </div>
-                            </div>
-                        </div>
-                        
-                        <div className="d-flex justify-content-end">
+                        <Row>
+                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{span: 3, offset: 6}} ><b>Toplam : </b></Col>
+                            <Col xs={{ span: 5, offset: 0 }} md={3} >{totalPrice}</Col>
+                        </Row>
+
+                        <Row>
+                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{span: 3, offset: 6}}><b>KDV Tutarı : </b></Col>
+                            <Col xs={{ span: 5, offset: 0 }} md={3}>{kdvPrice}</Col>
+                        </Row>
+
+                        <Row>
+                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{span: 3, offset: 6}}><b>GENEL TOPLAM :</b></Col>
+                            <Col xs={{ span: 5, offset: 0 }} md={3}>{kdvPrice + totalPrice} <small><small><i>+ SGK stopaj bedeli</i></small></small> </Col>
+                        </Row>
+
+                        <div className="d-flex justify-content-end mt-3">
                             <button className="btn btn-success mb-4" onClick={makeOffer}>Teklif Yap </button>
                         </div>
                     </div>
@@ -465,6 +477,6 @@ export default function MakeOffer(props) {
                 </Modal.Footer>
             </Modal>
 
-        </React.Fragment>
+        </React.Fragment >
     )
 }

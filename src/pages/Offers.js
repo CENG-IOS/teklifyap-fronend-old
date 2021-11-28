@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import BaseURL from '../api/BaseURL'
 import Modal from 'react-bootstrap/Modal';
 import Waves from "../components/Waves";
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 export default function Offers() {
     const [offersInfo, setOffersInfo] = useState([]);
@@ -134,13 +136,21 @@ export default function Offers() {
                             )}
                         </tbody>
                     </table>
-                    <div className="d-flex justify-content-end">
-                        <div className="d-flex flex-column">
-                            <div>Toplam : {tableData.length != 0 && tableData[0].offer.offer_total_price} </div>
-                            <div>KDV Tutarı : {tableData.length != 0 && tableData[0].offer.offer_kdv_price} </div>
-                            <div>GENEL TOPLAM : {tableData.length != 0 && tableData[0].offer.offer_total_price + tableData[0].offer.offer_kdv_price} </div>
-                        </div>
-                    </div>
+                    
+                    <Row>
+                        <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }} ><b>Toplam : </b></Col>
+                        <Col xs={{ span: 5, offset: 0 }} md={3} >{tableData.length != 0 && tableData[0].offer.offer_total_price}</Col>
+                    </Row>
+
+                    <Row>
+                        <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }}><b>KDV Tutarı : </b></Col>
+                        <Col xs={{ span: 5, offset: 0 }} md={3}>{tableData.length != 0 && tableData[0].offer.offer_kdv_price}</Col>
+                    </Row>
+
+                    <Row>
+                        <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }}><b>GENEL TOPLAM :</b></Col>
+                        <Col xs={{ span: 5, offset: 0 }} md={3}>{tableData.length != 0 && tableData[0].offer.offer_total_price + tableData[0].offer.offer_kdv_price} <small><small><i>+ SGK stopaj bedeli</i></small></small> </Col>
+                    </Row>
                 </Modal.Body>
             </Modal>
         </>
