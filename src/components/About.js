@@ -34,7 +34,7 @@ export const About = () => {
           <section className="scroll-container">
             <div className="js-scroll fade-in-bottom-left">
               <div className="position-relative d-flex flex-column justify-content-center align-items-center about-descp px-5 px-sm-0">
-                <h3>BİZ KİMİZ?</h3>
+                <h3 className="mb-3"> <b> <i>BİZ KİMİZ?</i> </b> </h3>
                 &emsp;&emsp; Biz kendini geliştirmek için her türlü çabayı sarf
                 eden ve çabalayan üç genciz. Henüz üniversite öğrencisiyiz ve
                 Eskişehir Teknik Üniversitesinde Bilgisayar Mühendisliği

@@ -14,7 +14,7 @@ export const Vision = () => {
           <section className="scroll-container">
             <div className="js-scroll fade-in-bottom">
               <div className="position-relative d-flex flex-column justify-content-center align-items-center vision-descp ps-5 px-5">
-                <h3>SIRADA NE VAR?</h3>
+                <h3 className="mb-3"> <b> <i>SIRADA NE VAR?</i> </b> </h3>
                 &emsp;&emsp;TeklifYap aslında tamamlanmış bir proje de olsa
                 kullanıcılarımız adına daha fazla fonksiyonellik, onların iş
                 hayatlarını daha da kolaylaştırmak adına bazı güncellemeler
