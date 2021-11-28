@@ -547,8 +547,8 @@
   border-width: 0.1px;
   margin-top: 5%;
   border-radius: 14px;
-  width: 210px;
-  height: 250px;
+  width: 180px;
+  height: 180px;
   -webkit-transition: border-width 0.6s linear;
   transition: border-width 0.6s linear;
   background: #ffb400;
@@ -1527,6 +1527,7 @@
 
 .roles {
   width: 100%;
+  max-width: 250px;
   opacity: 0.5;
 }
 
@@ -1558,6 +1559,11 @@
   .small-bg {
     background-color: #474746;
   }
+}
+
+.tech-logos {
+  width: 60%;
+  max-width: 250px;
 }
 
 .vision-img {
@@ -2110,3 +2116,4 @@
 .secondLine-off-default-theme {
   background-color: black;
 }
+/*# sourceMappingURL=main.css.map */

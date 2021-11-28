@@ -14,7 +14,6 @@ import BaseURL from '../api/BaseURL'
 SwiperCore.use([Mousewheel, Pagination]);
 
 export default function MakeOffer(props) {
-    // const [materials, setMaterials] = useState();
     const [realData, setRealData] = useState([]);
     const [name, setName] = useState(true)
     const [errorSlide1, setErrorSlide1] = useState(false)
@@ -24,12 +23,14 @@ export default function MakeOffer(props) {
     const [userInfo, setUserInfo] = useState("")
     const [selectedTitle, setSelectedTitle] = useState()
     const [selectedCompanyName, setSelectedCompanyName] = useState()
-    const [selectedProfitRate, setSelectedProfitRate] = useState()
+    const [selectedProfitRate, setSelectedProfitRate] = useState(0)
     const [selectedDate, setSelectedDate] = useState()
     const [selectedUserName, setSelectedUserName] = useState()
     const [selectedRowID, setSelectedRowID] = useState(-1)
     const [selectedMaterials, setSelectedMaterials] = useState([])
     const [warning, setWarning] = useState(false)
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [kdvPrice, setKDVPrice] = useState(0)
     const id = useSelector((state) => state.auth.userID);
     let values = {
         user_id: id,
@@ -69,8 +70,6 @@ export default function MakeOffer(props) {
 
     function nameHandler() {
         setName(!name)
-        let x = document.getElementById("name")
-        // x.value = ""
     }
 
     function fetchForSlide2() {
@@ -85,15 +84,14 @@ export default function MakeOffer(props) {
             .then((data) => {
                 const temp = new Array()
                 for (let i = 0; i < data.length; i++) {
-                    let newElement = {
+                    temp.push({
                         material_id: data[i].material_id,
                         material_name: data[i].material_name,
                         material_is_verified: data[i].material_is_verified,
                         material_unit: data[i].material_unit,
                         material_price_per_unit: 0,
                         material_unit_quantity: 0,
-                    }
-                    temp.push(newElement)
+                    })
                 }
                 setRealData(temp)
             });
@@ -182,8 +180,19 @@ export default function MakeOffer(props) {
                     },
                     offer_material_price_per_unit: element.parentElement.nextElementSibling.nextElementSibling.textContent.trim(),
                     offer_material_unit_quantity: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim(),
+                    offer_material_cost: Math.floor(~~(element.parentElement.nextElementSibling.nextElementSibling.textContent.trim()) * ~~(element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim()) * ((~~(selectedProfitRate) + 100) / 100))
                 })
             }
+            let temp = 0
+            selectedMaterials.forEach(item => {
+                temp += item.offer_material_cost
+            })
+            console.log("total price:");
+            console.log(temp);
+            console.log("kdv");
+            console.log(((temp * 18) / 100));
+            setKDVPrice(((temp * 18) / 100))
+            setTotalPrice(temp)
             setSelectedMaterials(selectedMaterials)
             return true
         }
@@ -199,10 +208,11 @@ export default function MakeOffer(props) {
                 offer_title: selectedTitle,
                 offer_company_name: selectedCompanyName,
                 offer_status: false,
-                offer_total_price: 0,
+                offer_total_price: totalPrice,
                 offer_date: selectedDate,
                 offer_profit_rate: selectedProfitRate,
                 offer_username: selectedUserName,
+                offer_kdv_price: kdvPrice,
                 user: {
                     user_id: values.user_id
                 }
@@ -210,6 +220,8 @@ export default function MakeOffer(props) {
         })
             .then((response) => response.json())
             .then((data) => {
+
+
 
                 selectedMaterials.forEach((item) => {
                     item.offer.offer_id = data.data
@@ -361,10 +373,12 @@ export default function MakeOffer(props) {
                                     <th>Birim Fiyatı</th>
                                     <th>Ölçü Birimi</th>
                                     <th>Birim Miktarı</th>
+                                    <th>Kar Oranı</th>
                                     <th>Toplam Malzeme Tutarı</th>
                                 </tr>
                             </thead>
                             <tbody id="tableRows">
+                                {console.log(selectedMaterials)}
                                 {selectedMaterials.map((e, i) =>
                                     <tr key={i} >
                                         <td>{i + 1}</td>
@@ -372,13 +386,22 @@ export default function MakeOffer(props) {
                                         <td>{e.offer_material_price_per_unit} </td>
                                         <td>{e.material.material_unit}</td>
                                         <td>{e.offer_material_unit_quantity} </td>
-                                        <td>{e.offer_material_unit_quantity * e.offer_material_price_per_unit} </td>
+                                        <td>{selectedProfitRate} </td>
+                                        <td>{e.offer_material_cost}</td>
                                     </tr>
                                 )}
 
                             </tbody>
                         </table>
 
+                        <div className="d-flex justify-content-end">
+                            <div className="d-flex flex-column">
+                                <div>Toplam : {totalPrice} </div>
+                                <div>KDV Tutarı : {kdvPrice} </div>
+                                <div>GENEL TOPLAM : {kdvPrice + totalPrice} </div>
+                            </div>
+                        </div>
+                        
                         <div className="d-flex justify-content-end">
                             <button className="btn btn-success mb-4" onClick={makeOffer}>Teklif Yap </button>
                         </div>
@@ -387,7 +410,6 @@ export default function MakeOffer(props) {
                 </SwiperSlide>
 
             </Swiper>
-
 
             <Modal show={errorSlide1 || errorSlide2 || errorSlide3 || warning} onHide={handleClose} centered>
                 <Modal.Header className={warning ? "bg-opacity-75 bg-success" : "bg-opacity-75 bg-danger"} closeButton>

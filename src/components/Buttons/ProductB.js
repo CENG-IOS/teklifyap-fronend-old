@@ -48,12 +48,12 @@ export default function ProductB(props) {
     return (
         <>
             <div className="m-3">
-                <div onClick={props.catcher} className="btn product-btn d-flex flex-column justify-content-around round" onClick={props.title === "placeholder" ? null:togglePopup}>
+                <div onClick={props.catcher} className="btn product-btn d-flex flex-column justify-content-around round" onClick={props.title === "placeholder" ? null : togglePopup}>
                     <div className="d-flex position-relative justify-content-center z-index-fixer">
                         <div className="position-absolute d-flex justify-content-center align-items-center h-100 product-text ">
                             {props.title === "placeholder" ?
                                 <Placeholder as="p" animation="glow">
-                                    <Placeholder xs={6} style={{width:150}} />
+                                    <Placeholder xs={6} style={{ width: 150 }} />
                                 </Placeholder>
                                 :
                                 props.title}
@@ -71,17 +71,7 @@ export default function ProductB(props) {
                         ></img>
                     </div>
 
-                    <div className="w-100 mt-1 text-product">
-                        <span>ÖLÇÜ BİRİMİ: </span>
-                        <span>
-                            {props.unit === "placeholder" ?
-                                <Placeholder as="p" animation="glow">
-                                    <Placeholder xs={12} size="lg" />
-                                </Placeholder>
-                                :
-                                props.unit}
-                        </span>
-                    </div>
+                    
                 </div>
 
             </div>
@@ -93,12 +83,13 @@ export default function ProductB(props) {
 
                 <Modal.Body>
                     <div className="d-flex flex-column justify-content-center mt-3">
-                        <div className="text-center mb-3"> <span className="font-weight-bold"> ÖLÇÜ BİRİMİ:</span> {props.unit}  </div>
+                        {props.is_fixed ? "" : <div className="text-center mb-3"> <span className="font-weight-bold"> ÖLÇÜ BİRİMİ:</span> {props.unit}  </div>}
+                        {props.is_fixed ? <div className="text-center">"Bu silinemez bir malzemedir!"</div> : ""}
                     </div>
                 </Modal.Body>
 
                 <Modal.Footer className="d-flex justify-content-center">
-                    <button className="btn btn-danger" onClick={openIsSure}>Malzemeyi Sil</button>
+                    <button className={props.is_fixed ? "btn btn-danger disabled" : "btn btn-danger"} onClick={openIsSure}>Malzemeyi Sil</button>
                 </Modal.Footer>
             </Modal>
 

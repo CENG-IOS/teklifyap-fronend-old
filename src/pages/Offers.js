@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import offerSVG from "../images/offer.svg";
 import Offer from "../components/Offer";
 import Footer from "../components/Footer";
 import { useSelector } from "react-redux";
@@ -116,9 +115,9 @@ export default function Offers() {
                             <tr>
                                 <th className="text-center">#</th>
                                 <th>Malzemenin İsmi</th>
-                                <th>Birim Fiyatı</th>
+                                {/* <th>Birim Fiyatı</th> */}
                                 <th>Ölçü Birimi</th>
-                                <th>Birim Miktarı</th>
+                                {/* <th>Birim Miktarı</th> */}
                                 <th>Tutar</th>
                             </tr>
                         </thead>
@@ -127,15 +126,21 @@ export default function Offers() {
                                 <tr key={index}>
                                     <td className="text-center"> {index + 1} </td>
                                     <td>{item.material.material_name}</td>
-                                    <td>{item.offer_material_price_per_unit} </td>
+                                    {/* <td>{item.offer_material_price_per_unit} </td> */}
                                     <td>{item.material.material_unit}</td>
-                                    <td>{item.offer_material_unit_quantity} </td>
-                                    <td>{item.offer_material_unit_quantity * item.offer_material_price_per_unit} </td>
+                                    {/* <td>{item.offer_material_unit_quantity} </td> */}
+                                    <td>{Math.floor(item.offer_material_unit_quantity * item.offer_material_price_per_unit * ((item.offer.offer_profit_rate + 100) / 100))} </td>
                                 </tr>
                             )}
-
                         </tbody>
                     </table>
+                    <div className="d-flex justify-content-end">
+                        <div className="d-flex flex-column">
+                            <div>Toplam : {tableData.length != 0 && tableData[0].offer.offer_total_price} </div>
+                            <div>KDV Tutarı : {tableData.length != 0 && tableData[0].offer.offer_kdv_price} </div>
+                            <div>GENEL TOPLAM : {tableData.length != 0 && tableData[0].offer.offer_total_price + tableData[0].offer.offer_kdv_price} </div>
+                        </div>
+                    </div>
                 </Modal.Body>
             </Modal>
         </>

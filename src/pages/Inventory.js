@@ -159,6 +159,7 @@ export default function Inventory() {
                                                 key={index.material_id}
                                                 title={index.material_name}
                                                 unit={index.material_unit}
+                                                is_fixed={index.is_fixed}
                                             />
                                         ) : null
                                     ) :

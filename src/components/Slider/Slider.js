@@ -25,7 +25,7 @@ export default function Slider() {
             // cssMode={true}
             navigation={true}
             autoplay={{
-                "delay": 2000,
+                "delay": 3000,
                 "disableOnInteraction": false
             }}
             pagination={{

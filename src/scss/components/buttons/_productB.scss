@@ -6,8 +6,8 @@
     border-width: 0.1px;
     margin-top: 5%;
     border-radius: 14px;
-    width: 210px;
-    height: 250px;
+    width: 180px;
+    height: 180px;
     transition: border-width 0.6s linear;
     background: rgb(255, 180, 0);
     background: -moz-linear-gradient(
@@ -129,6 +129,6 @@
         opacity: 0;
     }
 }
-.z-index-fixer{
+.z-index-fixer {
     z-index: 1;
 }
