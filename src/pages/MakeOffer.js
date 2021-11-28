@@ -334,7 +334,7 @@ export default function MakeOffer(props) {
                                 </tr>
                             </thead>
                             <tbody id="tableRows">
-                                {console.log(realData)}
+                                {/* {console.log(realData)} */}
                                 {realData.map((e, i) =>
                                     <tr key={e.material_id} id={e.material_id} className={e.is_fixed ? "table-warning" : ""} >
                                         <td className="text-center"> <input className="form-check-input checkboxs" type="checkbox" defaultChecked={e.is_fixed} onClick={(event) => e.is_fixed ? event.target.checked = true : null} /> </td>
@@ -375,7 +375,7 @@ export default function MakeOffer(props) {
                         </div>
 
                         <table className="table table-bordered table-light round mb-4">
-                            <thead>
+                            <thead className="table-dark">
                                 <tr>
                                     <th className="text-center">#</th>
                                     <th>Malzemenin İsmi</th>
