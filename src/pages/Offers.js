@@ -113,7 +113,7 @@ export default function Offers() {
 
                 <Modal.Body>
                     <table className="table table-bordered">
-                        <thead>
+                        <thead className="table-dark">
                             <tr>
                                 <th className="text-center">#</th>
                                 <th>Malzemenin İsmi</th>
