@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import leftVector from "../../images/leftVector.svg";
 import middleVector from "../../images/middleVector.svg";
 import rightVector from "../../images/rightVector.svg";
@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import Modal from 'react-bootstrap/Modal';
 import BaseURL from "../../api/BaseURL"
 import Placeholder from 'react-bootstrap/Placeholder'
+import Form from 'react-bootstrap/Form'
 
 export default function ProductB(props) {
 
@@ -15,6 +16,7 @@ export default function ProductB(props) {
     const [isSure, setIsSure] = useState(false);
     const [mateial_id, setMaterialID] = useState(props.material_id);
     const id = useSelector((state) => state.auth.userID);
+    const ppu = useRef(0);
 
     const togglePopup = () => {
         setIsOpen(!isOpen);
@@ -44,6 +46,35 @@ export default function ProductB(props) {
             });
     }
 
+    const updateMaterial = () => {
+
+        fetch(BaseURL + "api/material/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                material_id: mateial_id,
+                material_name: props.title,
+                material_unit: props.unit,
+                material_price_per_unit: ppu.current.value,
+                material_is_verified: 1,
+                user: {
+                    user_id: id
+                }
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setIsOpen(false)
+                setOpenRes(true)
+                setRes({
+                    success: true,
+                    message: data.message
+                })
+            });
+    }
+
 
     return (
         <>
@@ -70,10 +101,7 @@ export default function ProductB(props) {
                             alt='leftVector'
                         ></img>
                     </div>
-
-                    
                 </div>
-
             </div>
 
             <Modal show={isOpen} onHide={togglePopup} centered size="sm">
@@ -83,20 +111,34 @@ export default function ProductB(props) {
 
                 <Modal.Body>
                     <div className="d-flex flex-column justify-content-center mt-3">
-                        {props.is_fixed ? "" : <div className="text-center mb-3"> <span className="font-weight-bold"> ÖLÇÜ BİRİMİ:</span> {props.unit}  </div>}
-                        {props.is_fixed ? <div className="text-center">"Bu silinemez bir malzemedir!"</div> : ""}
+                        <Form>
+                            <Form.Group className="mb-3">
+                                <Form.Label><b>ÖLÇÜ BİRİMİ:</b></Form.Label>
+                                <Form.Control type="text" disabled defaultValue={props.unit} />
+                            </Form.Group>
+                        </Form>
+
+                        <Form>
+                            <Form.Group className="mb-3">
+                                <Form.Label><b>BİRİM FİYATI:</b></Form.Label>
+                                <Form.Control type="number" min="0" defaultValue={props.price_per_unit} ref={ppu} />
+                            </Form.Group>
+                        </Form>
+
+                        {props.is_fixed ? <div className="text-center">"Bu silinemez bir malzemedir!"</div> : null}
                     </div>
                 </Modal.Body>
 
-                <Modal.Footer className="d-flex justify-content-center">
-                    <button className={props.is_fixed ? "btn btn-danger disabled" : "btn btn-danger"} onClick={openIsSure}>Malzemeyi Sil</button>
+                <Modal.Footer className="d-flex justify-content-evenly">
+                    <button className="btn btn-success col-4" onClick={updateMaterial}>Kaydet</button>
+                    {props.is_fixed ? null :
+                        <button className="btn btn-danger col-4" onClick={openIsSure}>Sil</button>
+                    }
+
                 </Modal.Footer>
             </Modal>
 
-            <Modal show={openRes} onHide={() => {
-                setOpenRes(false)
-                window.location.reload(false);
-            }} centered size="sm">
+            <Modal show={openRes} backdrop="static" onHide={() => window.location.reload(false)} centered size="sm">
                 <Modal.Header className={res.success ? "bg-opacity-75 bg-success" : "bg-opacity-75 bg-danger"} closeButton >
                     <Modal.Title>{!res.success ? "Hata" : "Başarılı!"}</Modal.Title>
                 </Modal.Header>
@@ -106,9 +148,7 @@ export default function ProductB(props) {
                 </Modal.Body>
             </Modal>
 
-            <Modal show={isSure} onHide={() => {
-                setIsSure(false)
-            }} centered size="sm">
+            <Modal show={isSure} onHide={() => setIsSure(false)} centered size="sm">
                 <Modal.Header className="bg-opacity-75 bg-warning" closeButton >
                     <Modal.Title>Emin misin?</Modal.Title>
                 </Modal.Header>

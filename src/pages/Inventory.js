@@ -64,6 +64,8 @@ export default function Inventory() {
             material_name: productName,
             material_unit: unit,
             material_is_verified: 1,
+            material_price_per_unit: 0,
+            is_fixed: 0,
             user: {
                 user_id: id
             }
@@ -86,7 +88,7 @@ export default function Inventory() {
         setmyArray(myArray)
 
         handleClose()
-        window.location.reload(false)
+        window.location.reload()
     }
 
     function filterHandler() {
@@ -160,6 +162,7 @@ export default function Inventory() {
                                                 title={index.material_name}
                                                 unit={index.material_unit}
                                                 is_fixed={index.is_fixed}
+                                                price_per_unit={index.material_price_per_unit}
                                             />
                                         ) : null
                                     ) :
