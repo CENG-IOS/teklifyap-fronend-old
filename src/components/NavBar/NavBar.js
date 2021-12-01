@@ -359,7 +359,7 @@ const Navbar = () => {
                         {Auth && (
                             <li className=" d-flex justify-content-evenly">
                                 <NavLink
-                                    to="/"
+                                    to="/MakeOffer"
                                     activeClassName="active"
                                     className={
                                         !Theme
@@ -369,7 +369,6 @@ const Navbar = () => {
                                 >
                                     TEKLİF YAP
                                 </NavLink>
-
                                 
                             </li>
                         )}
@@ -384,6 +383,7 @@ const Navbar = () => {
                                             : "links p-2 each-link each-link-dark-theme d-flex flex-row justify-content-evenly sandwichMenuOfferButton"
                                     }
                                 >
+                                    
                                     GİRİŞ YAP
                                 </NavLink>
 
