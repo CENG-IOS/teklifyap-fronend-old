@@ -32,12 +32,18 @@ export default function MakeOffer(props) {
     const [warning, setWarning] = useState(false)
     const [totalPrice, setTotalPrice] = useState(0)
     const [kdvPrice, setKDVPrice] = useState(0)
+    const [SGKPrice, setSGKPrice] = useState(0)
     const id = useSelector((state) => state.auth.userID);
     let values = {
         user_id: id,
     };
     const history = useHistory();
     const [my_swiper, set_my_swiper] = useState({});
+
+    var formatter = new Intl.NumberFormat('tr', {
+        style: 'currency',
+        currency: 'TRY',
+    });
 
     const handleClose = () => {
         if (errorSlide1)
@@ -103,6 +109,9 @@ export default function MakeOffer(props) {
     function updateTable() {
         realData[selectedRowID].material_price_per_unit = document.getElementById("price_per_unit").value
         realData[selectedRowID].material_unit_quantity = document.getElementById("unit_quantity").value
+        if (realData[selectedRowID].is_fixed === 1) {
+            document.getElementById("fixed").innerHTML = document.getElementById("price_per_unit").value
+        }
 
         document.getElementsByClassName("checkboxs")[selectedRowID].checked = true
         setBtnEdit(false)
@@ -167,28 +176,29 @@ export default function MakeOffer(props) {
             const selectedMaterials = []
             for (let i = 0; i < checked.length; i++) {
                 const element = checked[i];
-                console.log();
-                if (element.parentElement.nextElementSibling.textContent !== "SGK stopaj bedeli") {
-                    if (element.parentElement.nextElementSibling.nextElementSibling.textContent == 0 ||
-                        element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent == 0) {
-                        setErrorSlide3(true)
-                        return false
-                    }
-                    selectedMaterials.push({
-                        material: {
-                            material_id: element.parentElement.parentElement.id,
-                            material_name: element.parentElement.nextElementSibling.textContent,
-                            material_is_verified: 1,
-                            material_unit: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.textContent
-                        },
-                        offer: {
-                            offer_id: "-1"
-                        },
-                        offer_material_price_per_unit: element.parentElement.nextElementSibling.nextElementSibling.textContent.trim(),
-                        offer_material_unit_quantity: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim(),
-                        offer_material_cost: Math.floor(~~(element.parentElement.nextElementSibling.nextElementSibling.textContent.trim()) * ~~(element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim()) * ((~~(selectedProfitRate) + 100) / 100))
-                    })
+                if (element.parentElement.nextElementSibling.nextElementSibling.textContent == 0 ||
+                    element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent == 0) {
+                    setErrorSlide3(true)
+                    return false
                 }
+                if (element.parentElement.nextElementSibling.nextElementSibling.id === "fixed") {
+                    setSGKPrice(document.getElementById("fixed").textContent)
+                    continue;
+                }
+                selectedMaterials.push({
+                    material: {
+                        material_id: element.parentElement.parentElement.id,
+                        material_name: element.parentElement.nextElementSibling.textContent,
+                        material_is_verified: 1,
+                        material_unit: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.textContent
+                    },
+                    offer: {
+                        offer_id: "-1"
+                    },
+                    offer_material_price_per_unit: element.parentElement.nextElementSibling.nextElementSibling.textContent.trim(),
+                    offer_material_unit_quantity: element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim(),
+                    offer_material_cost: Math.floor(~~(element.parentElement.nextElementSibling.nextElementSibling.textContent.trim()) * ~~(element.parentElement.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.textContent.trim()) * ((~~(selectedProfitRate) + 100) / 100))
+                })
             }
             let temp = 0
             selectedMaterials.forEach(item => {
@@ -328,24 +338,22 @@ export default function MakeOffer(props) {
                                     <th className="text-center">#</th>
                                     <th>Malzemenin İsmi</th>
                                     <th>Birim Fiyatı</th>
-                                    <th>Ölçü Birimi</th>
+                                    <th className="d-none d-sm-table-cell">Ölçü Birimi</th>
                                     <th>Birim Miktarı</th>
                                     <th className="text-center">Düzenle</th>
                                 </tr>
                             </thead>
                             <tbody id="tableRows">
-                                {/* {console.log(realData)} */}
                                 {realData.map((e, i) =>
                                     <tr key={e.material_id} id={e.material_id} className={e.is_fixed ? "table-warning" : ""} >
                                         <td className="text-center"> <input className="form-check-input checkboxs" type="checkbox" defaultChecked={e.is_fixed} onClick={(event) => e.is_fixed ? event.target.checked = true : null} /> </td>
                                         <td>{e.material_name}</td>
-                                        <td>{e.is_fixed ? "" : e.material_price_per_unit} </td>
-                                        <td>{e.is_fixed ? "" : e.material_unit}</td>
-                                        <td>{e.is_fixed ? "" : e.material_unit_quantity} </td>
+                                        <td id={e.is_fixed ? "fixed" : null}>{e.is_fixed ? 0 : e.material_price_per_unit} </td>
+                                        <td className="d-none d-sm-table-cell">{e.is_fixed ? "-" : e.material_unit}</td>
+                                        <td>{e.is_fixed ? 1 : e.material_unit_quantity} </td>
                                         <td>
                                             <div className="d-flex justify-content-center">
-                                                <button className={e.is_fixed ? "btn btn-success disabled" : "btn btn-success"} onClick={(e) => {
-                                                    e.preventDefault()
+                                                <button className="btn btn-success" onClick={(e) => {
                                                     setSelectedRowID(i)
                                                     setSelectedRow(e.target)
                                                     setBtnEdit(true)
@@ -377,25 +385,22 @@ export default function MakeOffer(props) {
                         <table className="table table-bordered table-light round mb-4">
                             <thead className="table-dark">
                                 <tr>
-                                    <th className="text-center">#</th>
+                                    <th className="d-none d-sm-table-cell text-center">#</th>
                                     <th>Malzemenin İsmi</th>
                                     <th>Birim Fiyatı</th>
-                                    <th className="d-none d-sm-block">Ölçü Birimi</th>
+                                    <th className="d-none d-sm-table-cell">Ölçü Birimi</th>
                                     <th>Birim Miktarı</th>
-                                    <th>Kar Oranı</th>
                                     <th>Toplam Malzeme Tutarı</th>
                                 </tr>
                             </thead>
                             <tbody id="tableRows">
-                                {/* {console.log(selectedMaterials)} */}
                                 {selectedMaterials.map((e, i) =>
                                     <tr key={i} >
-                                        <td>{i + 1}</td>
+                                        <td className="d-none d-sm-table-cell">{i + 1}</td>
                                         <td>{e.material.material_name}</td>
                                         <td>{e.offer_material_price_per_unit} </td>
-                                        <td className="d-none d-sm-block">{e.material.material_unit}</td>
+                                        <td className="d-none d-sm-table-cell">{e.material.material_unit}</td>
                                         <td>{e.offer_material_unit_quantity} </td>
-                                        <td>{selectedProfitRate} </td>
                                         <td>{e.offer_material_cost}</td>
                                     </tr>
                                 )}
@@ -404,21 +409,26 @@ export default function MakeOffer(props) {
                         </table>
 
                         <Row>
-                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }} ><b>Toplam : </b></Col>
-                            <Col xs={{ span: 5, offset: 0 }} md={3} >{totalPrice}</Col>
+                            <Col className="d-flex justify-content-sm-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }} ><b> <small>Ara Toplam: </small></b></Col>
+                            <Col className="d-flex justify-content-end" xs={{ span: 4, offset: 0 }} md={3} >{formatter.format(totalPrice).replace('₺', " ") + " ₺"}</Col>
                         </Row>
 
                         <Row>
-                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }}><b>KDV Tutarı : </b></Col>
-                            <Col xs={{ span: 5, offset: 0 }} md={3}>{kdvPrice}</Col>
+                            <Col className="d-flex justify-content-sm-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }}><b> <small>KDV Tutarı: </small></b></Col>
+                            <Col className="d-flex justify-content-end" xs={{ span: 4, offset: 0 }} md={3}>{formatter.format(kdvPrice).replace('₺', " ") + " ₺"}</Col>
                         </Row>
 
                         <Row>
-                            <Col className="d-flex justify-content-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }}><b>GENEL TOPLAM :</b></Col>
-                            <Col xs={{ span: 5, offset: 0 }} md={3}>{kdvPrice + totalPrice} <small><small><i>+ SGK stopaj bedeli</i></small></small> </Col>
+                            <Col className="d-flex justify-content-sm-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }}><b> <small>SGK Stopaj: </small></b></Col>
+                            <Col className="d-flex justify-content-end" xs={{ span: 4, offset: 0 }} md={3}>{formatter.format(SGKPrice).replace('₺', " ") + " ₺"}</Col>
                         </Row>
 
-                        <div className="d-flex justify-content-end mt-3">
+                        <Row>
+                            <Col className="d-flex justify-content-sm-end" xs={{ span: 5, offset: 2 }} md={{ span: 3, offset: 6 }}><b> <small>Genel Toplam: </small> </b></Col>
+                            <Col className="d-flex justify-content-end" xs={{ span: 4, offset: 0 }} md={3}>{formatter.format(kdvPrice + totalPrice + ~~SGKPrice).replace('₺', " ") + " ₺"} </Col>
+                        </Row>
+
+                        <div className="d-flex justify-content-sm-end justify-content-center mt-3">
                             <button className="btn btn-success mb-4" onClick={makeOffer}>Teklif Yap </button>
                         </div>
                     </div>
@@ -435,7 +445,7 @@ export default function MakeOffer(props) {
                 <Modal.Body>
                     {errorSlide1 && "Bazı gerekli alanlar boş, lütfen eksiksiz doldurduğunuza emin olun!"
                     }
-                    {errorSlide2 && "En az 1 öğe seçilmelidir!"
+                    {errorSlide2 && "SGK stopaj bedeli haricinde en az 1 öğe seçilmelidir!"
                     }
                     {errorSlide3 && "En az bir satırın birim fiyatı ya da birim miktarı sıfır!"
                     }
@@ -445,41 +455,43 @@ export default function MakeOffer(props) {
             </Modal>
 
             <Modal show={btnEdit} onHide={() => setBtnEdit(false)} centered>
-                <Modal.Header className="bg-opacity-75 bg-warning" closeButton>
-                    <Modal.Title>Düzenle ~ <span className="h6">{realData.length != 0 && selectedRowID != -1 ? realData[selectedRowID].material_name : ""}</span> </Modal.Title>
-                </Modal.Header>
+                {btnEdit &&
+                    <>
+                        <Modal.Header className="bg-opacity-75 bg-warning" closeButton>
+                            <Modal.Title>Düzenle ~ <span className="h6">{realData.length != 0 && selectedRowID != -1 ? realData[selectedRowID].material_name : ""}</span> </Modal.Title>
+                        </Modal.Header>
 
-                <Modal.Body>
+                        <Modal.Body>
+                            <Container>
+                                <Row>
+                                    <Col md={4} >
+                                        <label className="col-form-label" htmlFor="price_per_unit"> <b>Birim Fiyatı :</b> </label>
+                                    </Col>
+                                    <Col>
+                                        <input className="form-control" min="0" defaultValue={realData[selectedRowID].material_price_per_unit} id="price_per_unit" name="price_per_unit" type="number" />
+                                    </Col>
+                                </Row>
+                                <br />
+                                <Row>
+                                    <Col md={4}>
+                                        <label className="col-form-label" htmlFor="unit_quantity"><b>Birim Miktarı :</b></label>
+                                    </Col>
+                                    <Col>
+                                        <input className="form-control" min="0" disabled={realData[selectedRowID].is_fixed === 1 ? true : false} defaultValue={realData[selectedRowID].is_fixed === 1 ? 1 : realData[selectedRowID].material_unit_quantity} id="unit_quantity" name="unit_quantity" type="number" />
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Modal.Body>
 
-                    <Container>
-                        <Row>
-                            <Col md={4} >
-                                <label className="col-form-label" htmlFor="price_per_unit">Birim Fiyatı :</label>
-                            </Col>
-                            <Col>
-                                <input className="form-control" min="0" defaultValue={realData.length != 0 && selectedRowID != -1 ? realData[selectedRowID].material_price_per_unit : " "} id="price_per_unit" name="price_per_unit" type="number" />
-                            </Col>
-                        </Row>
-                        <br />
-                        {console.log(selectedRowID)}
-                        <Row>
-                            <Col md={4}>
-                                <label className="col-form-label" htmlFor="unit_quantity">Birim Miktarı :</label>
-                            </Col>
-                            <Col>
-                                <input className="form-control" min="0" defaultValue={realData.length != 0 && selectedRowID != -1 ? realData[selectedRowID].material_unit_quantity : " "} id="unit_quantity" name="unit_quantity" type="number" />
-                            </Col>
-                        </Row>
-                    </Container>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Container>
-                        <div className="d-flex justify-content-center">
-                            <button className="btn btn-success" onClick={updateTable} >Kaydet</button>
-                        </div>
-                    </Container>
-                </Modal.Footer>
+                        <Modal.Footer>
+                            <Container>
+                                <div className="d-flex justify-content-center">
+                                    <button className="btn btn-success" onClick={updateTable} >Kaydet</button>
+                                </div>
+                            </Container>
+                        </Modal.Footer>
+                    </>
+                }
             </Modal>
 
         </React.Fragment >
