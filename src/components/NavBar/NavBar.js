@@ -359,12 +359,6 @@ const Navbar = () => {
                         {Auth && (
                             <li className=" d-flex justify-content-evenly">
                                 <NavLink
-                                    // id="L1"
-                                    /* activeStyle={
-                                    GetPath() == "/" && {
-                                      color: "#FFB400",
-                                    }
-                                  }*/
                                     to="/"
                                     activeClassName="active"
                                     className={
@@ -376,39 +370,12 @@ const Navbar = () => {
                                     TEKLİF YAP
                                 </NavLink>
 
-                                <div className="position-absolute w-100 wave-wrapper">
-                                    <Wave
-                                        fill="url('#gradient')"
-                                        paused={false}
-                                        options={{
-                                            height: 100,
-                                            amplitude: 20,
-                                            speed: 0.3,
-                                            points: 2,
-                                        }}
-                                    >
-                                        <defs>
-                                            <linearGradient
-                                                id="gradient"
-                                                gradientTransform="rotate(90)"
-                                            >
-                                                <stop offset="10%" stopColor="#22E435" />
-                                                <stop offset="90%" stopColor="#2A844F" />
-                                            </linearGradient>
-                                        </defs>
-                                    </Wave>
-                                </div>
+                                
                             </li>
                         )}
                         {!Auth && GetPath() == "/" ? (
                             <li className=" d-flex justify-content-evenly">
                                 <NavLink
-                                    // id="L1"
-                                    /* activeStyle={
-                                    GetPath() == "/" && {
-                                      color: "#FFB400",
-                                    }
-                                  }*/
                                     to="/Login"
                                     activeClassName="active"
                                     className={
@@ -518,10 +485,10 @@ const Navbar = () => {
                         </li>
 
                         <li className="each-link-out d-flex justify-content-center ">
-                        {!Auth ?  <div>
-                            <THEME></THEME>
-                        </div>: null}
-                       
+                            {!Auth ? <div>
+                                <THEME></THEME>
+                            </div> : null}
+
                         </li>
 
                         {!(!Auth && GetPath() == "/") ? (
