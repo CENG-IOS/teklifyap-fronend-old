@@ -20,6 +20,7 @@ const Register = (props) => {
     const [warningPop, setWarningPop] = useState(false);
     const [warning, setWarning] = useState([]);
     const [myArray, setmyArray] = useState(null);
+    const [demo, setDemo] = useState(true);
     let history = useHistory();
     const Theme = useSelector((state) => state.theme.theme);
 
@@ -304,6 +305,19 @@ const Register = (props) => {
 
                 </Modal.Body>
             </Modal>
+
+            <Modal show={demo} centered backdrop="static" onHide={() => setDemo(false)} >
+                <Modal.Header className="bg-opacity-75 bg-warning" closeButton>
+                    <Modal.Title className="user-select-none">Kayıt olmadan önce uyarı!</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body className="text-center">
+                    Bu proje bir demodur. Bazı özellikleri eksik olabilir. Güvenliğiniz açısından şahsi epostanız,
+                    kimlik bilgileriniz ya da sık kullandığınız şifreleri kullanmayınız.
+                </Modal.Body>
+            </Modal>
+
+
         </React.Fragment>
 
 
