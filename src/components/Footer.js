@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import footer from "../images/footer.svg";
 import logo from "../images/logo.svg";
 import googlePlay from "../images/googlePlay.png";
-import icon from "../images/instagram.png";
+import icon from "../images/linkedin.png";
 
 export default class Footer extends Component {
   render() {
@@ -33,11 +33,10 @@ export default class Footer extends Component {
           </div>
           <div className="position-relative d-flex justify-content-center mt-2 ">
             <div className="w-25 d-flex justify-content-around mb-3">
-              <img className="icon" src={icon} alt="icon"></img>
-              <img className="icon" src={icon} alt="icon"></img>
-              <img className="icon" src={icon} alt="icon"></img>
-              <img className="icon" src={icon} alt="icon"></img>
-              <img className="icon" src={icon} alt="icon"></img>
+            <a href="https://www.linkedin.com/in/ishak-%C3%A7oban-b8b027227/" target="_blank"><img className="icon" src={icon} alt="icon"></img></a>
+            <a href="https://www.linkedin.com/in/o%C4%9Fuzhan-er%C3%A7elik-62a006174/" target="_blank"><img className="icon" src={icon} alt="icon"></img></a>
+            <a href="https://www.linkedin.com/in/sevda-erg%C3%BCn-449b9a174/"  target="_blank"><img className="icon" src={icon} alt="icon"></img></a>
+              
             </div>
           </div>
         </div>
